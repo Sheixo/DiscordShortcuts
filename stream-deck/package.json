@@ -1,6 +1,8 @@
 {
     "scripts": {
         "build": "rollup -c",
+        "typecheck": "tsc --project tsconfig.json --noEmit",
+        "pack": "streamdeck pack fr.ethan.discord-shortcuts.sdPlugin --output ../releases --no-update-check",
         "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart fr.ethan.discord-shortcuts\""
     },
     "type": "module",

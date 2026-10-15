@@ -6,7 +6,7 @@ Le connecteur est dans **shortcutToggle/**. Le plugin Stream Deck est dans **str
 npm ci
 npm test
 npm --prefix stream-deck ci
-npm --prefix stream-deck exec tsc -- --noEmit
+npm --prefix stream-deck run typecheck
 npm --prefix stream-deck run build
 ~~~
 
@@ -21,7 +21,7 @@ node scripts/typecheck.cjs "C:/chemin/vers/Vencord"
 Pour produire l’installateur avec le CLI Elgato installé dans les dépendances Stream Deck :
 
 ~~~powershell
-npm --prefix stream-deck exec streamdeck -- pack stream-deck/fr.ethan.discord-shortcuts.sdPlugin --output releases --no-update-check
+npm --prefix stream-deck run pack
 ~~~
 
 Le compagnon écoute localement sur **127.0.0.1:45873**. Son protocole contrôle les sessions, révisions, confirmations, délais et doublons. Les commandes non confirmées ne sont pas répétées automatiquement.
