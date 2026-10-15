@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src ws://127.0.0.1:*; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+  <link rel="stylesheet" href="settings.css">
+  <title>Discord Shortcuts</title>
+</head>
+<body>
+  <header>
+    <svg class="brand-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="7" width="26" height="18" rx="5" stroke="currentColor" stroke-width="2"/><path d="M9 12h2m4 0h2m4 0h2M9 16h2m4 0h2m4 0h2m-14 4h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <div><div class="brand">Discord Shortcuts</div><div class="tag">Tes raccourcis, sous contrôle.</div></div>
+  </header>
+  <main>
+    <section class="card status-card">
+      <div class="row"><span id="connection-label" class="connection">Connexion à Discord…</span><span id="state-badge" class="badge" role="status">Connexion…</span></div>
+      <h1 id="status-title">En attente de Discord</h1>
+      <p id="status-description">Ouvre Discord pour retrouver tes raccourcis.</p>
+      <button id="toggle" class="primary" type="button" disabled>En attente de Discord</button>
+      <p id="error" class="error" role="status" hidden></p>
+    </section>
+    <section class="shortcuts" aria-labelledby="shortcuts-title">
+      <div class="row section-heading"><h2 id="shortcuts-title">Raccourcis contrôlés</h2><span id="count" class="count" title="Raccourcis cochés / total">0 / 0</span></div>
+      <label class="sr-only" for="search">Rechercher une touche ou une action</label>
+      <input id="search" type="search" placeholder="Rechercher une touche ou une action…" autocomplete="off" maxlength="100" aria-controls="keybinds">
+      <div class="row bulk"><button id="select-all" type="button" disabled>Tout cocher</button><button id="select-none" type="button" disabled>Tout décocher</button></div>
+      <div id="keybinds" class="keybinds"></div>
+      <p id="empty" class="hint">La liste apparaîtra quand Discord sera connecté.</p>
+      <p class="hint automatic-note">Les nouveaux raccourcis sont cochés automatiquement, même sur OFF.</p>
+    </section>
+    <details class="card updates">
+      <summary><span>Mises à jour</span><span id="version" class="count">0.4.0.0</span></summary>
+      <button id="check-update" type="button">Rechercher les mises à jour</button>
+      <label class="check"><input id="automatic" type="checkbox" checked>Vérifier automatiquement chaque jour</label>
+      <p id="update-status" class="hint" role="status"></p>
+      <button id="download" type="button" hidden>Télécharger la mise à jour</button>
+      <p class="hint">La vérification est automatique ; l’installation se fait depuis GitHub.</p>
+    </details>
+    <details class="card help">
+      <summary>Installation et aide</summary>
+      <ol><li>Installe le connecteur ShortcutToggle dans Vencord et active-le dans Discord.</li><li>Installe Discord Shortcuts dans Stream Deck, puis sélectionne son bouton.</li></ol>
+      <p class="hint">Vencord est nécessaire. Le guide GitHub explique chaque étape.</p>
+      <p class="hint">Sur OFF, seules les actions des raccourcis cochés sont suspendues. Leurs touches restent disponibles pour écrire et jouer. Discord redémarre sur ON.</p>
+      <p class="hint">Pour ajouter un raccourci : Discord → Paramètres → Raccourcis clavier. La liste suit tes modifications automatiquement.</p>
+      <p id="connector-version" class="hint"></p>
+      <button id="support" class="link" type="button">Ouvrir le guide d’installation →</button>
+    </details>
+    <footer><button id="github" class="link" type="button">GitHub ↗</button><button id="refresh" class="link" type="button">Actualiser la connexion</button></footer>
+  </main>
+  <script src="settings.js"></script>
+</body>
+</html>

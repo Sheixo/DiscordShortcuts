@@ -1,0 +1,1 @@
+window.connectElgatoStreamDeckSocket("12345","demo-inspector","registerPropertyInspector",JSON.stringify({plugin:{uuid:"fr.ethan.discord-shortcuts"}}),JSON.stringify({action:"fr.ethan.discord-shortcuts.toggle",context:"demo-action"}));

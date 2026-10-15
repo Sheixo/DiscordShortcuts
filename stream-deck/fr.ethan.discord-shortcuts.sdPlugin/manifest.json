@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "UUID": "fr.ethan.discord-shortcuts",
+  "Name": "Discord Shortcuts",
+  "Category": "Discord Shortcuts",
+  "CategoryIcon": "imgs/category",
+  "Version": "0.4.0.0",
+  "Author": "Sheixo",
+  "Description": "Manage Discord keybinds from Stream Deck: live list, automatic additions, selection and ON/OFF. Requires the Discord connector.",
+  "CodePath": "bin/plugin.js",
+  "SDKVersion": 3,
+  "Nodejs": {
+    "Version": "24"
+  },
+  "Software": {
+    "MinimumVersion": "7.1"
+  },
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Icon": "imgs/plugin",
+  "Actions": [
+    {
+      "UUID": "fr.ethan.discord-shortcuts.toggle",
+      "Name": "Discord Keybinds",
+      "Icon": "imgs/action",
+      "Controllers": [
+        "Keypad"
+      ],
+      "DisableAutomaticStates": true,
+      "DisableCaching": true,
+      "States": [
+        {
+          "Image": "imgs/on",
+          "Title": ""
+        },
+        {
+          "Image": "imgs/off",
+          "Title": ""
+        }
+      ],
+      "PropertyInspectorPath": "ui/settings.html",
+      "Tooltip": "Enable or suspend selected Discord keybinds. All settings are available here in Stream Deck."
+    }
+  ],
+  "URL": "https://github.com/Sheixo/DiscordShortcuts",
+  "SupportURL": "https://github.com/Sheixo/DiscordShortcuts/issues"
+}

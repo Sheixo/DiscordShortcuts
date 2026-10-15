@@ -1,0 +1,8 @@
+{
+  "name": "discord-shortcuts",
+  "version": "0.4.0",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "scripts": { "test": "node tests/run.cjs", "build": "npm --prefix stream-deck run build" },
+  "devDependencies": { "esbuild": "0.28.1" }
+}

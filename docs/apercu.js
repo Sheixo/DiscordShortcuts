@@ -1,0 +1,1 @@
+const panel=document.querySelector("iframe");for(const button of document.querySelectorAll("[data-state]"))button.addEventListener("click",()=>panel.contentWindow.postMessage({type:"preview-state",value:button.dataset.state},"*"));

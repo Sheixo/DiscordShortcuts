@@ -1,0 +1,8 @@
+{
+  "Name": "Discord Shortcuts",
+  "Description": "Gère les raccourcis Discord depuis Stream Deck : liste automatique, sélection et bouton ON/OFF.",
+  "fr.ethan.discord-shortcuts.toggle": {
+    "Name": "Raccourcis Discord",
+    "Tooltip": "Active ou suspend les raccourcis Discord sélectionnés. Tous les réglages se trouvent dans Stream Deck."
+  }
+}

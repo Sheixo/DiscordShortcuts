@@ -1,0 +1,8 @@
+node_modules/
+stream-deck/node_modules/
+stream-deck/*.sdPlugin/bin/plugin.js
+stream-deck/*.sdPlugin/bin/*.map
+stream-deck/*.sdPlugin/logs/
+releases/
+*.log
+.DS_Store
