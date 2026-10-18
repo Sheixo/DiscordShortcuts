@@ -1,4 +1,12 @@
-# Validation — 16 octobre 2026
+# Validation — mise à jour le 18 octobre 2026
+
+## Assistant graphique Windows 0.1.0 — 18 octobre 2026
+
+- Compilation native .NET Framework WinForms réussie ; fenêtre affichée et boutons lisibles. Le mode aperçu désactive les opérations.
+- **22 tests d’opérations** réussis dans des installations fictives : intégrité du paquet, destinations refusées, remplacement Stream Deck, manifeste endommagé, sauvegarde, arrêt si l’application reste ouverte, désinstallation répétée, source partiellement absente, conservation des autres plugins et profils, et restauration après échec de compilation ou de déplacement.
+- Le bouton **Vérifier seulement** a été exécuté dans l’application native sur le PC de développement : fichiers du connecteur et du compagnon conformes, avec identification de la copie active dans AppData. Ce contrôle n’a modifié aucune installation et ne teste pas la connexion en cours.
+- Le dialogue de désinstallation a été ouvert puis annulé : périmètre explicite et choix **Non** sélectionné par défaut. Aucune désinstallation réelle n’a été exécutée sur le PC de l’utilisateur pendant cette validation.
+- Les opérations d’installation/réparation/désinstallation du nouvel assistant graphique restent validées par simulation. Son moteur de connecteur est partagé avec l’assistant en console testé en réel ci-dessous.
 
 ## Assistant d’installation — 18 octobre 2026
 
@@ -6,6 +14,7 @@
 - Les tests de première installation et d’échec d’injection utilisent des processus simulés. Un essai complet de première installation sur un PC vierge n’a pas été effectué.
 - Contrôle en lecture seule effectué sur le PC de développement : la copie chargée depuis AppData correspond aux fichiers compilés contenant ShortcutToggle. Ce contrôle ne prouve pas à lui seul la connexion en cours à Stream Deck.
 - Après application de cette compilation et rechargement de Discord, ShortcutToggle apparaît dans Vencord et est activé. Le moteur du connecteur et l’installateur Stream Deck restent ceux de la version publiée.
+- L’utilisateur a ensuite téléchargé et exécuté la procédure publiée en console, puis confirmé que les installations fonctionnaient correctement. Ce retour concerne son PC, sans constituer un essai sur un PC vierge.
 
 ## Version publiée
 

@@ -1,5 +1,12 @@
 # Changements
 
+## Assistant Windows 0.1.0 — 18 octobre 2026
+
+- Nouvelle fenêtre : Tout installer, Stream Deck uniquement, Vérifier / Réparer, Tout désinstaller et contrôle des fichiers sans modification.
+- Détection de la compilation Vencord réellement chargée par Discord pour éviter le problème des deux copies.
+- Sauvegardes et désinstallation des deux composants sans retirer Vencord, les autres plugins ou les profils Stream Deck.
+- Guide et paquet unique avec les prérequis. Plugin Stream Deck 0.4.0.0 et connecteur 0.3.0 conservés.
+
 ## 0.4.0
 
 - Panneau Stream Deck plus compact, état de connexion et titres ON/OFF explicites.

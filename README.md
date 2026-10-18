@@ -4,7 +4,7 @@
 
 Garde tes touches pour écrire et jouer. Sur **OFF**, leurs actions Discord sont suspendues ; sur **ON**, elles fonctionnent à nouveau.
 
-[**Télécharger le paquet d’installation Windows**](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-Installation-Windows-0.4.0.zip) · [**Installer ou mettre à jour**](docs/INSTALLATION.fr.md) · [Signaler un problème](https://github.com/Sheixo/DiscordShortcuts/issues)
+[**Télécharger l’assistant Windows**](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.1.0.zip) · [**Installer, réparer ou désinstaller**](docs/INSTALLATION.fr.md) · [Signaler un problème](https://github.com/Sheixo/DiscordShortcuts/issues)
 
 > **Deux composants sont nécessaires :** le plugin Stream Deck et le connecteur ShortcutToggle dans Vencord. Cette version ne fonctionne pas avec Discord non modifié.
 
@@ -12,13 +12,18 @@ Garde tes touches pour écrire et jouer. Sur **OFF**, leurs actions Discord sont
 
 ## Installation rapide
 
-| 1. Dans Discord | 2. Dans Stream Deck |
-| --- | --- |
-| Dans le paquet extrait, lance **Installer-Connecteur.cmd**, puis active **ShortcutToggle** dans Discord. L’assistant compile et applique les fichiers au bon emplacement. | Ouvre le fichier **.streamDeckPlugin** du même paquet, ajoute son action à une touche et sélectionne-la pour régler tes raccourcis. |
+1. Télécharge le ZIP de l’assistant et utilise **Extraire tout**.
+2. Quitte complètement Discord et Stream Deck depuis leurs icônes près de l’horloge.
+3. Ouvre **DiscordShortcuts-Assistant.exe**, garde ton dossier Vencord existant et choisis **Tout installer**.
+4. Relance les applications, active **ShortcutToggle** dans les plugins Vencord et ajoute l’action **Discord Shortcuts** à une touche Stream Deck.
 
-**Un seul paquet à extraire :** [installation Windows](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-Installation-Windows-0.4.0.zip). Il contient l’assistant du connecteur et l’installateur Stream Deck. Les outils Node.js, Git et pnpm restent nécessaires ; le guide explique les prérequis. Pour une mise à jour, réutilise la même procédure.
+**Une seule fenêtre** propose **Tout installer**, **Stream Deck uniquement**, **Vérifier / Réparer** et **Tout désinstaller**. Le bouton **Vérifier seulement** contrôle les fichiers sans les modifier. Node.js 22 ou une version LTS plus récente, Git et pnpm restent nécessaires pour le connecteur ; le [guide](docs/INSTALLATION.fr.md) détaille les prérequis. Pour une mise à jour, réutilise **Tout installer** dans le nouveau paquet.
 
-Fichiers séparés pour les utilisateurs avancés : [connecteur Vencord](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/index.tsx) · [plugin Stream Deck](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/fr.ethan.discord-shortcuts.streamDeckPlugin) · [archive des sources et fichiers de la version initiale](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-0.4.0.zip).
+![Assistant Windows — aperçu sans opérations](docs/assistant-windows.jpg)
+
+La désinstallation retire uniquement nos deux composants : Vencord, les autres plugins et les profils Stream Deck sont conservés, avec des sauvegardes des fichiers retirés.
+
+Fichiers séparés pour les utilisateurs avancés : [connecteur Vencord](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/index.tsx) · [plugin Stream Deck](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/fr.ethan.discord-shortcuts.streamDeckPlugin) · [ancien assistant en console](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Installation-Windows-0.4.0.zip) · [archive de la version initiale](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-0.4.0.zip).
 
 Le [guide détaillé](docs/INSTALLATION.fr.md) explique l’installation et la mise à jour.
 
@@ -45,6 +50,8 @@ Le connecteur reste nommé **ShortcutToggle** dans Vencord. Toute la gestion est
 | Ensemble | Stream Deck | Connecteur Discord |
 | --- | --- | --- |
 | 0.4.0 | 0.4.0.0 | 0.3.0 |
+
+L’assistant Windows possède sa propre version **0.1.0**. Il regroupe les composants ci-dessus sans changer leur moteur.
 
 La nouvelle présentation conserve le moteur du connecteur déjà testé. [Détails des vérifications](docs/VALIDATION.fr.md) · [Changements](CHANGELOG.md) · [Développement](docs/DEVELOPPEMENT.fr.md).
 

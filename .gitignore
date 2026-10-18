@@ -6,3 +6,4 @@ stream-deck/*.sdPlugin/logs/
 releases/
 *.log
 .DS_Store
+/.test-tmp/

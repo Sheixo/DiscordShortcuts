@@ -3,6 +3,6 @@
   "version": "0.4.0",
   "private": true,
   "license": "GPL-3.0-or-later",
-  "scripts": { "test": "node tests/run.cjs && node tests/installer-connecteur.cjs", "build": "npm --prefix stream-deck run build" },
+  "scripts": { "test": "node tests/run.cjs && node tests/installer-connecteur.cjs && node tests/assistant.cjs", "build": "npm --prefix stream-deck run build", "build:assistant": "node scripts/build-assistant.cjs" },
   "devDependencies": { "esbuild": "0.28.1" }
 }

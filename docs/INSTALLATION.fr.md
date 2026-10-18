@@ -1,44 +1,66 @@
-# Installer ou mettre à jour Discord Shortcuts
+# Installer, mettre à jour ou désinstaller Discord Shortcuts
 
-[← Accueil](../README.md) · [Télécharger le paquet Windows](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-Installation-Windows-0.4.0.zip)
+[← Accueil](../README.md) · [Télécharger l’assistant Windows](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.1.0.zip)
 
-**Une seule procédure pour une première installation et pour les mises à jour.** Le paquet contient l’assistant du connecteur et l’installateur Stream Deck. Tu n’as pas de commandes PowerShell à recopier ni de fichiers compilés à déplacer toi-même.
+**Une fenêtre pour installer, réparer et désinstaller.** Tu n’as pas de commandes PowerShell à recopier ni de fichiers compilés à déplacer toi-même. Le paquet contient l’assistant Windows 0.1.0, le connecteur 0.3.0 et le plugin Stream Deck 0.4.0.0.
 
-Deux composants restent nécessaires : **ShortcutToggle dans Vencord** et **Discord Shortcuts dans Stream Deck**. Cet assistant facilite leur installation ; il ne rend pas le plugin indépendant de Vencord.
+Deux composants restent nécessaires : **ShortcutToggle dans Vencord** et **Discord Shortcuts dans Stream Deck**. L’assistant les gère ensemble ; Vencord reste nécessaire.
+
+![Assistant Windows — aperçu sans opérations](assistant-windows.jpg)
 
 ## Avant de commencer
 
 - **Discord officiel Stable**, sous Windows 10 ou plus récent.
-- **Stream Deck 7.1** ou plus récent.
-- [Node.js 22 ou une version LTS plus récente](https://nodejs.org/), [Git pour Windows](https://git-scm.com/downloads/win) et [pnpm](https://pnpm.io/installation), installés et accessibles dans le PATH. Ce sont les outils nécessaires à la compilation de Vencord.
+- **Stream Deck 7.1** ou plus récent, installé et ouvert au moins une fois.
+- [Node.js 22 ou une version LTS plus récente](https://nodejs.org/), [Git pour Windows](https://git-scm.com/downloads/win) et [pnpm](https://pnpm.io/installation), installés et accessibles dans le PATH. Ces outils servent à compiler Vencord et restent nécessaires pour installer, réparer ou retirer uniquement le connecteur.
 - Une connexion Internet pour les sources et les dépendances.
 
-Si tu possèdes déjà les sources Vencord avec d’autres plugins personnalisés, garde ce dossier : l’assistant peut le réutiliser. Il ne télécharge pas une nouvelle copie par-dessus un dossier existant et ne met pas automatiquement ses sources à jour.
+Si tu possèdes déjà les sources Vencord avec d’autres plugins personnalisés, garde ce dossier : l’assistant peut le réutiliser. Il ne remplace pas un dossier existant qui ne contient pas Vencord et ne met pas automatiquement ses sources à jour.
 
-## 1. Installer le connecteur Discord
+## Installer les deux composants
 
-1. Télécharge [**DiscordShortcuts-Installation-Windows-0.4.0.zip**](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-Installation-Windows-0.4.0.zip), puis utilise **Extraire tout**. Garde ensemble tous les fichiers extraits.
-2. **Quitte complètement Discord depuis son icône près de l’horloge.** Un éventuel appel vocal sera interrompu.
-3. Dans le dossier extrait, double-clique sur **Installer-Connecteur.cmd**.
-4. L’assistant propose ton dossier **Documents\Vencord**. Appuie sur **Entrée** pour le garder, ou indique le dossier qui contient tes sources Vencord. Si le dossier choisi n’existe pas, l’assistant y télécharge les sources officielles.
-5. Attends le message **Installation terminée**. L’assistant place le connecteur, prépare les dépendances, compile Vencord, installe la compilation dans Discord si nécessaire et vérifie les fichiers réellement chargés. S’il existe deux copies de Vencord, il applique les fichiers à la bonne copie. Une sauvegarde des fichiers remplacés est conservée.
+1. Télécharge [**DiscordShortcuts-Assistant-Windows-0.1.0.zip**](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.1.0.zip), puis utilise **Extraire tout**. Garde ensemble tous les fichiers extraits.
+2. **Quitte complètement Discord et Stream Deck depuis leurs icônes près de l’horloge.** Un éventuel appel vocal sera interrompu. L’assistant ne ferme aucune application automatiquement.
+3. Dans le dossier extrait, double-clique sur **DiscordShortcuts-Assistant.exe**.
+4. Le champ propose **Documents\Vencord**. Garde-le si c’est ton dossier, ou utilise **Parcourir** pour choisir les sources Vencord existantes. Si le dossier choisi n’existe pas, l’installation y télécharge les sources officielles.
+5. Clique sur **Tout installer** et attends le message **Installation terminée**. L’assistant place le connecteur, prépare les dépendances, compile Vencord, applique les fichiers à la copie réellement chargée par Discord et installe le plugin Stream Deck. Les fichiers remplacés sont sauvegardés.
 6. Relance Discord, puis active **ShortcutToggle** dans **Paramètres → Vencord → Plugins**.
+7. Relance Stream Deck, puis ajoute l’action de la catégorie **Discord Shortcuts** à une touche. Son nom peut apparaître comme **Discord Keybinds** ou **Raccourcis Discord**, selon la langue. Sélectionne la touche : le panneau doit indiquer **Discord connecté** et afficher tes raccourcis.
 
-Le nom à rechercher dans Discord est **ShortcutToggle**. Les réglages du plugin se trouvent dans Stream Deck.
+Le nom à rechercher dans Discord est **ShortcutToggle**. Tous les réglages se trouvent ensuite dans Stream Deck.
 
 L’assistant utilise le [processus officiel de compilation et d’installation de Vencord](https://docs.vencord.dev/installing/). Il ne demande aucun identifiant Discord et ne modifie pas les fichiers de session.
 
-## 2. Installer le plugin Stream Deck
+## Choisir le bon bouton
 
-1. Dans le même dossier extrait, ouvre **fr.ethan.discord-shortcuts.streamDeckPlugin**. Accepte la mise à jour proposée par Stream Deck si une ancienne version est présente.
-2. Ajoute l’action de la catégorie **Discord Shortcuts** à une touche. Son nom peut apparaître comme **Discord Keybinds** ou **Raccourcis Discord**, selon la langue. Les touches déjà configurées conservent leur identifiant.
-3. Sélectionne la touche : le panneau doit indiquer **Discord connecté** et afficher tes raccourcis.
+| Bouton | Quand l’utiliser |
+| --- | --- |
+| **Tout installer** | Première installation ou mise à jour des deux composants. |
+| **Stream Deck uniquement** | Installer ou mettre à jour seulement le compagnon, sans modifier Vencord. Seul Stream Deck doit être fermé. |
+| **Vérifier / Réparer** | Refaire la compilation et appliquer les fichiers du paquet aux bonnes copies de Discord et Stream Deck. Ferme les deux applications. |
+| **Tout désinstaller** | Retirer nos deux composants, après confirmation. Ferme les deux applications. |
+| **Vérifier seulement** | Comparer les fichiers sans modification. Les applications peuvent rester ouvertes. Ce contrôle ne prouve pas la connexion en cours. |
+
+Si Node.js est absent, **Stream Deck uniquement** ouvre le fichier **fr.ethan.discord-shortcuts.streamDeckPlugin** fourni : termine l’installation dans Stream Deck. L’ouverture de cet installateur n’est pas encore une confirmation d’installation.
 
 ## Pour une prochaine mise à jour
 
-**Télécharge le nouveau paquet et refais les deux étapes ci-dessus.** Choisis le même dossier Vencord dans l’assistant. Il reprend la compilation et vérifie la copie active ; tu n’as pas à déterminer toi-même où copier les fichiers ou quand relancer l’injection.
+**Télécharge le nouveau paquet, extrais-le, ferme les deux applications et clique sur Tout installer.** Choisis le même dossier Vencord. Tu n’as pas à déterminer toi-même où copier les fichiers ou quand relancer l’injection.
 
-Les vérifications de mise à jour du panneau restent disponibles, mais elles n’installent pas automatiquement le connecteur.
+Le panneau recherche les nouvelles versions ; leur installation reste manuelle. **Vérifier / Réparer** réapplique la version contenue dans le paquet ouvert : télécharge le nouveau paquet pour obtenir une version plus récente.
+
+## Désinstaller
+
+1. Garde les sources Vencord et les outils de compilation disponibles.
+2. Quitte complètement Discord et Stream Deck.
+3. Ouvre l’assistant, choisis le dossier Vencord utilisé lors de l’installation et clique sur **Tout désinstaller**.
+4. Lis la confirmation et valide si tu souhaites retirer Discord Shortcuts. Attends la fin avant de relancer les applications.
+
+L’assistant retire **ShortcutToggle** des sources et de la compilation active, puis retire **Discord Shortcuts** de Stream Deck. Une nouvelle compilation de Vencord permet de conserver tes autres plugins.
+
+**Sont conservés :** Vencord, les autres plugins personnalisés, les raccourcis et comptes Discord, les profils Stream Deck, Node.js, Git et pnpm. Les touches Discord Shortcuts déjà placées dans les profils peuvent rester visibles comme actions manquantes ; tu peux les retirer dans Stream Deck.
+
+Les fichiers retirés sont conservés dans des sauvegardes : **.discord-shortcuts-backups** sous les sources Vencord et **%APPDATA%\Elgato\StreamDeck\DiscordShortcutsBackups** pour Stream Deck. L’assistant ne les efface pas automatiquement.
 
 ## Vérifier le fonctionnement
 
@@ -48,13 +70,15 @@ Les vérifications de mise à jour du panneau restent disponibles, mais elles n�
 
 Les touches restent utilisables pour écrire et jouer. Configure les nouveaux raccourcis dans Discord : ils apparaissent automatiquement, cochés par défaut, dans Stream Deck. Le redémarrage de Discord remet ON ; une reconnexion de Stream Deck conserve l’état existant.
 
-## En cas de problème
+## Dépannage
 
-- **L’assistant s’arrête :** lis la dernière ligne. Une erreur de téléchargement ou de compilation doit être résolue avant de relancer le même assistant. Il ne faut pas ajouter des commandes au hasard.
-- **ShortcutToggle est absent :** vérifie que l’assistant a terminé avec succès, puis ferme et relance complètement Discord. Après une réinstallation de Vencord ou une réparation de Discord, relance le même assistant pour réappliquer le connecteur.
-- **Le panneau Stream Deck reste hors ligne :** vérifie que Discord est ouvert, que ShortcutToggle est activé et que l’action Discord Shortcuts est présente. Utilise ensuite **Actualiser la connexion** dans le panneau.
-- **Discord utilise un autre dossier Vencord :** l’assistant affiche le dossier et s’arrête pour éviter de modifier une installation qu’il ne reconnaît pas. Choisis les sources correspondantes, ou joins ce message à une [demande d’aide](https://github.com/Sheixo/DiscordShortcuts/issues).
+- **L’assistant s’arrête :** lis la dernière ligne du journal. Une erreur de téléchargement ou de compilation doit être résolue avant de relancer la même action.
+- **ShortcutToggle est absent :** utilise **Vérifier seulement**, puis **Vérifier / Réparer** après fermeture des applications. Ferme et relance complètement Discord, puis active le plugin dans Vencord.
+- **Deux copies Vencord existent :** l’assistant vérifie la copie réellement chargée par Discord. Il applique les fichiers à cette copie si elle est reconnue ; sinon, il affiche le dossier et s’arrête. Choisis les sources correspondantes ou joins ce message à une [demande d’aide](https://github.com/Sheixo/DiscordShortcuts/issues).
+- **Le panneau reste hors ligne :** vérifie que Discord est ouvert, que ShortcutToggle est activé et que l’action Discord Shortcuts est présente. Utilise **Actualiser la connexion** dans le panneau.
+- **La désinstallation demande les sources :** elles sont nécessaires pour retirer le connecteur en conservant Vencord et les autres plugins. Choisis le dossier utilisé lors de l’installation.
+- **Tu utilises l’ancien assistant en console :** il reste disponible dans les anciens téléchargements. Le nouvel assistant graphique remplace ce flux ; tu peux utiliser le même dossier Vencord.
 
-Cette procédure vise **Discord Stable sous Windows**. Elle ne prend pas en charge Vesktop, Discord PTB/Canary, le navigateur, macOS ou Linux.
+Cette procédure vise **Discord Stable sous Windows**. Vesktop, Discord PTB/Canary, le navigateur, macOS et Linux ne sont pas pris en charge.
 
-Pour le développement manuel, les fichiers source du connecteur restent dans **shortcutToggle/** ; consulte le [guide officiel des plugins personnalisés Vencord](https://docs.vencord.dev/installing/custom-plugins/) et le [guide de développement du projet](DEVELOPPEMENT.fr.md).
+Pour le développement manuel : [guide officiel des plugins personnalisés Vencord](https://docs.vencord.dev/installing/custom-plugins/) et [développement du projet](DEVELOPPEMENT.fr.md).

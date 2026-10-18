@@ -85,15 +85,17 @@ function resolveRuntime(source, appData, target) {
     return runtime;
 }
 
-function verifyBuild(source) {
+function verifyBuild(source, expectConnector = true) {
     const dist = path.join(source, 'dist');
     for (const name of REQUIRED) {
         const file = path.join(dist, name);
         if (!fs.existsSync(file) || !fs.statSync(file).isFile() || fs.statSync(file).size === 0)
             fail('Compilation incomplete : ' + name + '. Aucun fichier actif copie.');
     }
-    if (!fs.readFileSync(path.join(dist, 'renderer.js'), 'utf8').includes('ShortcutToggle'))
-        fail('La compilation ne contient pas ShortcutToggle. Aucun fichier actif copie.');
+    const present = fs.readFileSync(path.join(dist, 'renderer.js'), 'utf8').includes('ShortcutToggle');
+    if (present !== expectConnector)
+        fail(expectConnector ? 'La compilation ne contient pas ShortcutToggle. Aucun fichier actif copie.'
+            : 'La compilation contient encore ShortcutToggle. Desinstallation annulee.');
 }
 
 function backupDirectory(source) {
@@ -104,8 +106,8 @@ function backupDirectory(source) {
     return fs.mkdtempSync(path.join(root, 'installation-'));
 }
 
-function applyBuild(source, runtime, backup) {
-    verifyBuild(source);
+function applyBuild(source, runtime, backup, expectConnector = true) {
+    verifyBuild(source, expectConnector);
     if (!samePath(path.join(source, 'dist'), runtime)) {
         const files = [...REQUIRED, ...OPTIONAL].filter(name => fs.existsSync(path.join(source, 'dist', name)));
         for (const name of files) {
@@ -137,8 +139,8 @@ function applyBuild(source, runtime, backup) {
             throw error;
         }
     }
-    if (!fs.readFileSync(path.join(runtime, 'renderer.js'), 'utf8').includes('ShortcutToggle'))
-        fail('Le connecteur est absent de la copie active.');
+    if (fs.readFileSync(path.join(runtime, 'renderer.js'), 'utf8').includes('ShortcutToggle') !== expectConnector)
+        fail('Le contenu de la copie active ne correspond pas a l\'operation demandee.');
 }
 
 function run(command, args, options = {}) {
@@ -163,10 +165,10 @@ function check(source, appData, resources) {
         fs.readFileSync(path.join(runtime, 'renderer.js'), 'utf8').includes('ShortcutToggle');
     console.log('Sources Vencord : ' + source);
     console.log('Copie chargee par Discord : ' + runtime);
-    if (!current) fail('ShortcutToggle est absent de la copie chargee par Discord. Lancez Installer-Connecteur.cmd.');
+    if (!current) fail('ShortcutToggle est absent de la copie chargee par Discord. Relancez l\'assistant pour reparer le connecteur.');
     const identical = REQUIRED.every(name => fs.existsSync(path.join(runtime, name)) &&
         sha(path.join(source, 'dist', name)) === sha(path.join(runtime, name)));
-    if (!identical) fail('La copie chargee differe de la compilation. Lancez Installer-Connecteur.cmd.');
+    if (!identical) fail('La copie chargee differe de la compilation. Relancez l\'assistant pour reparer le connecteur.');
     console.log('Verification reussie : les fichiers actifs correspondent a la compilation contenant ShortcutToggle.');
     console.log('Ce controle verifie les fichiers, pas la connexion en cours dans Discord.');
     return runtime;
@@ -279,7 +281,7 @@ function parseArguments(args) {
 }
 
 module.exports = { bootstrapTarget, readBootstrap, findDiscord, resolveRuntime, sourceIsValid,
-    verifyBuild, applyBuild, install, check, pnpm, parseArguments };
+    verifyBuild, applyBuild, install, check, pnpm, parseArguments, run, backupDirectory, REQUIRED, OPTIONAL };
 if (require.main === module) main(process.argv.slice(2)).catch(error => {
     console.error('\nECHEC : ' + error.message);
     console.error('Aucune connexion Discord n\'est demandee. Aide : https://github.com/Sheixo/DiscordShortcuts/blob/main/docs/INSTALLATION.fr.md');
