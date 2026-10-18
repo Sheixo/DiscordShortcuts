@@ -174,7 +174,7 @@ function check(source, appData, resources) {
     return runtime;
 }
 
-function install({ source, appData, resources, bundledConnector, execute = run, ensureClosed = () => {} }) {
+function install({ source, appData, resources, bundledConnector, execute = run, ensureClosed = () => {}, showNextSteps = true }) {
     if (!sourceIsValid(source)) fail('Le dossier choisi ne contient pas les sources de Vencord.');
     // Refuse an unknown existing injection before changing the source or running a build.
     const previousRuntime = resolveRuntime(source, appData, readBootstrap(resources));
@@ -224,8 +224,10 @@ function install({ source, appData, resources, bundledConnector, execute = run, 
     applyBuild(source, runtime, backup);
     check(source, appData, resources);
     console.log('\nInstallation terminee. Sauvegarde : ' + backup);
-    console.log('Relancez Discord et activez ShortcutToggle dans Parametres > Vencord > Plugins.');
-    console.log('Installez ensuite le fichier .streamDeckPlugin et ajoutez son action dans Stream Deck.');
+    if (showNextSteps) {
+        console.log('Relancez Discord et activez ShortcutToggle dans Parametres > Vencord > Plugins.');
+        console.log('Installez ensuite le fichier .streamDeckPlugin et ajoutez son action dans Stream Deck.');
+    }
     return { runtime, backup };
 }
 

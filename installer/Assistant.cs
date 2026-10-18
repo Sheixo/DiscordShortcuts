@@ -9,7 +9,7 @@ using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 [assembly: System.Reflection.AssemblyTitle("Discord Shortcuts Assistant")]
-[assembly: System.Reflection.AssemblyVersion("0.1.0.0")]
+[assembly: System.Reflection.AssemblyVersion("0.2.0.0")]
 
 internal sealed class Assistant : Form {
     private readonly Color background = Color.FromArgb(18, 22, 31);
@@ -37,7 +37,7 @@ internal sealed class Assistant : Form {
 
     private Assistant(bool previewMode) {
         preview = previewMode;
-        Text = "Discord Shortcuts — Assistant" + (preview ? " — Aperçu" : "");
+        Text = "Discord Shortcuts — Assistant 0.2.0" + (preview ? " — Aperçu" : "");
         ClientSize = new Size(940, 780);
         MinimumSize = new Size(956, 819);
         StartPosition = FormStartPosition.CenterScreen;
@@ -50,7 +50,7 @@ internal sealed class Assistant : Form {
         title.Font = new Font("Segoe UI Semibold", 25F);
         TextLabel("Installer, réparer ou retirer les deux composants depuis une seule fenêtre.", 32, 72, 860, 27, 11, muted);
         TextLabel("WINDOWS  ·  DISCORD STABLE  ·  VENCORD REQUIS", 33, 106, 720, 25, 9, muted);
-        Label version = TextLabel("Assistant 0.1.0", 775, 32, 140, 26, 9, muted);
+        Label version = TextLabel("Assistant 0.2.0", 775, 32, 140, 26, 9, muted);
         version.TextAlign = ContentAlignment.MiddleRight;
 
         Panel location = new Panel { Location = new Point(30, 145), Size = new Size(880, 110), BackColor = panel };
@@ -71,18 +71,17 @@ internal sealed class Assistant : Form {
         Label hint = new Label { Text = "Garde ton dossier existant si tu utilises d’autres plugins personnalisés.", Location = new Point(17, 80), Size = new Size(830, 22), ForeColor = muted, Font = new Font("Segoe UI", 9F) };
         location.Controls.Add(hint);
 
-        AddAction("Tout installer", "Connecteur Vencord + plugin Stream Deck", "install-all", 30, 275, Color.FromArgb(82, 99, 227));
-        AddAction("Stream Deck uniquement", "Installer ou mettre à jour le compagnon", "install-streamdeck", 480, 275, Color.FromArgb(43, 69, 102));
-        AddAction("Vérifier / Réparer", "Reconstruire et appliquer les bons fichiers", "repair", 30, 367, Color.FromArgb(38, 104, 91));
-        AddAction("Tout désinstaller", "Retirer Discord Shortcuts et son connecteur", "uninstall", 480, 367, Color.FromArgb(125, 52, 63));
+        AddAction("Tout installer", "Installer ou mettre à jour\nles deux composants", "install-all", 30, 275, Color.FromArgb(82, 99, 227));
+        AddAction("Vérifier / Réparer", "Reconstruire et vérifier\nles fichiers installés", "repair", 330, 275, Color.FromArgb(38, 104, 91));
+        AddAction("Tout désinstaller", "Retirer le plugin Stream Deck\net son connecteur", "uninstall", 630, 275, Color.FromArgb(125, 52, 63));
 
-        summary = TextLabel("Vencord, tes autres plugins et tes profils Stream Deck sont conservés à la désinstallation.", 32, 468, 870, 35, 9, muted);
-        status = TextLabel(preview ? "Aperçu — les opérations sont désactivées." : "Prêt. Tu peux vérifier les fichiers sans rien modifier.", 32, 514, 870, 28, 11, Color.White);
-        progress = new ProgressBar { Location = new Point(32, 550), Size = new Size(876, 5), Style = ProgressBarStyle.Blocks };
+        summary = TextLabel("Discord et Stream Deck seront fermés puis relancés automatiquement.\nTout appel vocal sera interrompu. Enregistre tes réglages avant de lancer une opération.", 32, 407, 870, 48, 10, muted);
+        status = TextLabel(preview ? "Aperçu — les opérations sont désactivées." : "Prêt. Tu peux vérifier les fichiers sans rien modifier.", 32, 483, 870, 36, 11, Color.White);
+        progress = new ProgressBar { Location = new Point(32, 525), Size = new Size(876, 5), Style = ProgressBarStyle.Blocks };
         Controls.Add(progress);
-        log = new TextBox { Location = new Point(32, 570), Size = new Size(876, 137), Multiline = true, ReadOnly = true, ScrollBars = ScrollBars.Vertical,
+        log = new TextBox { Location = new Point(32, 547), Size = new Size(876, 160), Multiline = true, ReadOnly = true, ScrollBars = ScrollBars.Vertical,
             BackColor = panel, ForeColor = muted, Font = new Font("Consolas", 9F), BorderStyle = BorderStyle.None, Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right };
-        log.Text = "Les opérations et les éventuelles erreurs s’afficheront ici.\r\nAucune fermeture automatique de Discord ou Stream Deck.";
+        log.Text = "Les étapes et les éventuelles erreurs s’afficheront ici.\r\nVérifier seulement ne ferme aucune application.\r\nLa désinstallation conserve Vencord, les autres plugins et tes profils Stream Deck.";
         Controls.Add(log);
         Button check = new Button { Text = "Vérifier seulement", Location = new Point(32, 728), Size = new Size(170, 30), FlatStyle = FlatStyle.Flat, BackColor = panel, Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
         check.FlatAppearance.BorderSize = 0;
@@ -103,9 +102,9 @@ internal sealed class Assistant : Form {
     }
 
     private void AddAction(string title, string description, string action, int x, int y, Color color) {
-        Button button = new Button { Text = title + "\n" + description, Location = new Point(x, y), Size = new Size(430, 77),
+        Button button = new Button { Text = title + "\n\n" + description, Location = new Point(x, y), Size = new Size(280, 108),
             FlatStyle = FlatStyle.Flat, BackColor = color, ForeColor = Color.White, TextAlign = ContentAlignment.MiddleLeft,
-            Padding = new Padding(17, 0, 5, 0), Font = new Font("Segoe UI", 11F), Cursor = Cursors.Hand };
+            Padding = new Padding(13, 0, 5, 0), Font = new Font("Segoe UI", 10F), Cursor = Cursors.Hand };
         button.FlatAppearance.BorderSize = 0;
         button.Click += delegate { StartJob(action); };
         Controls.Add(button); actions.Add(button);
@@ -139,21 +138,10 @@ internal sealed class Assistant : Form {
         if (worker != null) return;
         string node = NodePath();
         if (node == null) {
-            if (action == "install-streamdeck") {
-                string package = Path.Combine(root, "fr.ethan.discord-shortcuts.streamDeckPlugin");
-                if (File.Exists(package)) {
-                    Process.Start(new ProcessStartInfo(package) { UseShellExecute = true });
-                    status.Text = "Installateur Stream Deck ouvert. Termine l’installation dans Stream Deck.";
-                    return;
-                }
-            }
             MessageBox.Show(this, "Node.js 22 ou une version LTS plus récente est requis. Le guide contient le lien d’installation officiel.", "Prérequis manquant", MessageBoxButtons.OK, MessageBoxIcon.Information); return;
         }
         if (action == "uninstall") {
-            if (MessageBox.Show(this, "Retirer Discord Shortcuts de Stream Deck et son connecteur ShortcutToggle de Vencord ?\n\nVencord, les autres plugins, les raccourcis Discord et les profils Stream Deck seront conservés. Une sauvegarde sera créée.\n\nFerme complètement Discord et Stream Deck avant de continuer.", "Désinstaller Discord Shortcuts", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.Yes) return;
-        } else if (action != "check") {
-            string apps = action == "install-streamdeck" ? "Stream Deck" : "Discord et Stream Deck";
-            if (MessageBox.Show(this, "Ferme complètement " + apps + " depuis leurs icônes près de l’horloge, puis clique sur OK.\n\nL’assistant vérifiera leur fermeture avant de modifier les fichiers.", "Préparer l’opération", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) != DialogResult.OK) return;
+            if (MessageBox.Show(this, "Retirer Discord Shortcuts de Stream Deck et son connecteur ShortcutToggle de Vencord ?\n\nVencord, les autres plugins, les raccourcis Discord et les profils Stream Deck seront conservés. Une sauvegarde sera créée.\n\nDiscord et Stream Deck seront fermés puis relancés automatiquement. Un éventuel appel vocal sera interrompu.", "Désinstaller Discord Shortcuts", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.Yes) return;
         }
         try {
             jobFile = Path.Combine(Path.GetTempPath(), "discord-shortcuts-job-" + Guid.NewGuid().ToString("N") + ".json");

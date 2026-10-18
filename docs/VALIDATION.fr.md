@@ -1,12 +1,21 @@
 # Validation — mise à jour le 18 octobre 2026
 
+## Assistant graphique Windows 0.2.0 — 18 octobre 2026
+
+- Trois actions principales, suppression de Stream Deck uniquement et contrôle en lecture seule conservé.
+- **30 tests d’opérations** réussis, dont l’ordre fermeture/opération/vérification/relance, un échec de découverte, de fermeture partielle, de compilation et de relance, et le refus d’interrompre les applications si le paquet est endommagé ou la désinstallation non confirmée.
+- **14 contrôles C#** des chemins autorisés réussis : Discord Stable et Stream Deck reconnus ; PTB/Canary, chemins étrangers, fichiers Node et traversées hors destination refusés.
+- Application native et gestionnaire compilés ; aperçu avec les trois boutons contrôlé. La découverte native en lecture seule a retrouvé les deux exécutables réellement installés sur le PC.
+- L’utilisateur a exécuté **Tout installer**, puis **Vérifier / Réparer** avec les applications ouvertes et confirmé leur fermeture puis relance automatiques. Le journal natif de réparation confirme la fermeture, la compilation, la vérification de la copie active et les deux relances. Le connecteur source, le connecteur actif et le plugin Stream Deck ont été retrouvés après cet essai.
+- La désinstallation avec le nouveau cycle automatique est couverte par simulation ; le retrait des deux composants a été validé en réel avec la version 0.1.0. Les scénarios d’échec de relance restent simulés. Un essai de première installation sur un PC vierge n’a pas été effectué.
+
 ## Assistant graphique Windows 0.1.0 — 18 octobre 2026
 
 - Compilation native .NET Framework WinForms réussie ; fenêtre affichée et boutons lisibles. Le mode aperçu désactive les opérations.
 - **22 tests d’opérations** réussis dans des installations fictives : intégrité du paquet, destinations refusées, remplacement Stream Deck, manifeste endommagé, sauvegarde, arrêt si l’application reste ouverte, désinstallation répétée, source partiellement absente, conservation des autres plugins et profils, et restauration après échec de compilation ou de déplacement.
 - Le bouton **Vérifier seulement** a été exécuté dans l’application native sur le PC de développement : fichiers du connecteur et du compagnon conformes, avec identification de la copie active dans AppData. Ce contrôle n’a modifié aucune installation et ne teste pas la connexion en cours.
-- Le dialogue de désinstallation a été ouvert puis annulé : périmètre explicite et choix **Non** sélectionné par défaut. Aucune désinstallation réelle n’a été exécutée sur le PC de l’utilisateur pendant cette validation.
-- Les opérations d’installation/réparation/désinstallation du nouvel assistant graphique restent validées par simulation. Son moteur de connecteur est partagé avec l’assistant en console testé en réel ci-dessous.
+- Le dialogue de désinstallation a d’abord été ouvert puis annulé : périmètre explicite et choix **Non** sélectionné par défaut. L’utilisateur a ensuite testé volontairement **Tout désinstaller** : journal de réussite, sources ShortcutToggle et plugin Stream Deck absents, compilation active sans ShortcutToggle, Vencord et sauvegardes présents.
+- L’utilisateur a ensuite confirmé que **Tout installer** réinstalle correctement les deux composants. Ces deux essais réels concernent la version 0.1.0 avec fermeture manuelle des applications ; le nouveau cycle automatique est distinct.
 
 ## Assistant d’installation — 18 octobre 2026
 

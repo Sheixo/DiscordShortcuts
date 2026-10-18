@@ -15,7 +15,7 @@ function copy(relative, destination = relative) {
     fs.mkdirSync(path.dirname(target), { recursive: true });
     fs.copyFileSync(path.join(root, relative), target);
 }
-for (const file of ['scripts/installer-connecteur.cjs', 'scripts/launcher-runner.cjs', 'installer/operations.cjs', 'shortcutToggle/index.tsx', 'LICENSE']) copy(file);
+for (const file of ['scripts/installer-connecteur.cjs', 'scripts/launcher-runner.cjs', 'installer/operations.cjs', 'installer/application-lifecycle.cjs', 'shortcutToggle/index.tsx', 'LICENSE']) copy(file);
 copy('installer/LIRE-MOI.md', 'LIRE-MOI.md');
 copy('releases/fr.ethan.discord-shortcuts.streamDeckPlugin', 'fr.ethan.discord-shortcuts.streamDeckPlugin');
 const manifest = { uuid: 'fr.ethan.discord-shortcuts', version: '0.4.0.0', files: [] };
@@ -42,6 +42,10 @@ const result = cp.spawnSync(compiler, ['/nologo', '/target:winexe', '/platform:a
     '/out:' + path.join(output, 'DiscordShortcuts-Assistant.exe'), path.join(root, 'installer', 'Assistant.cs')], { encoding: 'utf8' });
 process.stdout.write(result.stdout || ''); process.stderr.write(result.stderr || '');
 if (result.error || result.status !== 0) throw result.error || new Error('Compilation Windows echouee.');
+const helper = cp.spawnSync(compiler, ['/nologo', '/target:exe', '/platform:anycpu', '/optimize+', '/codepage:65001', '/utf8output',
+    '/reference:System.Web.Extensions.dll', '/out:' + path.join(output, 'installer', 'ApplicationControl.exe'), path.join(root, 'installer', 'ApplicationControl.cs')], { encoding: 'utf8' });
+process.stdout.write(helper.stdout || ''); process.stderr.write(helper.stderr || '');
+if (helper.error || helper.status !== 0) throw helper.error || new Error('Compilation du gestionnaire des applications echouee.');
 const validation = require('../installer/operations.cjs').payload({ packageRoot: output });
 console.log('Assistant Windows compile. ' + validation.manifest.files.length + ' fichiers Stream Deck verifies.');
 console.log(output);

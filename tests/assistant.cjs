@@ -5,6 +5,7 @@ const os = require('node:os');
 const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
 const operations = require('../installer/operations.cjs');
+const lifecycle = require('../installer/application-lifecycle.cjs');
 const fixtureRoot = path.resolve(__dirname, '..', '.test-tmp');
 fs.mkdirSync(fixtureRoot, { recursive: true });
 const temporary = fs.mkdtempSync(path.join(fixtureRoot, 'discord-shortcuts-assistant-'));
@@ -69,14 +70,10 @@ try {
         assert.throws(() => operations.inside(temporary, temporary));
         assert.throws(() => operations.inside(temporary, path.dirname(temporary)));
     });
-    test('Stream Deck-only installation never calls Vencord build or requires Discord to close', () => {
-        const f = fixture(); let called = false; const checked = [];
-        f.context.execute = () => { called = true; };
-        f.context.ensureClosed = names => checked.push(...names);
-        put(path.join(f.target, 'bin/plugin.js'), 'older runtime');
-        operations.executeAction(f.context, 'install-streamdeck');
-        assert.equal(called, false); assert(checked.every(name => name === 'StreamDeck.exe'));
-        assert.equal(fs.readFileSync(path.join(f.target, 'bin/plugin.js'), 'utf8'), 'companion runtime');
+    test('removed Stream Deck-only action is rejected before changing files', () => {
+        const f = fixture(); f.context.execute = () => { throw new Error('unexpected build'); };
+        assert.throws(() => operations.executeAction(f.context, 'install-streamdeck'), /inconnue/);
+        assert.throws(() => lifecycle.executeManagedAction(f.context, 'install-streamdeck'), /inconnue/);
         assert.equal(fs.readFileSync(path.join(f.runtime, 'renderer.js'), 'utf8'), 'ShortcutToggle original renderer.js');
     });
     test('Stream Deck replacement saves the old plugin and preserves profiles', () => {
@@ -192,6 +189,59 @@ try {
             assert(fs.readFileSync(path.join(f.runtime, 'renderer.js'), 'utf8').includes('ShortcutToggle'));
             assert.equal(fs.readFileSync(path.join(f.target, 'bin/plugin.js'), 'utf8'), 'companion runtime');
         }
+    });
+    test('managed install, repair and uninstall close before mutation and restart after verification', () => {
+        for (const action of ['install-all', 'repair', 'uninstall']) {
+            const f = fixture(), events = []; let running = true;
+            f.context.ensureClosed = () => { assert.equal(running, false); };
+            const apps = { prepare: () => events.push('prepare'), stop: () => { events.push('stop'); running = false; }, start: () => {
+                events.push('start');
+                assert.equal(fs.readFileSync(path.join(f.runtime, 'renderer.js'), 'utf8').includes('ShortcutToggle'), action !== 'uninstall');
+                assert.equal(fs.existsSync(f.target), action !== 'uninstall');
+                running = true;
+            } };
+            const result = lifecycle.executeManagedAction(f.context, action, apps);
+            assert.deepEqual(events, ['prepare','stop','start']); assert.equal(running, true); assert(result.includes('ont ete relances'));
+        }
+    });
+    test('read-only managed verification never stops or starts applications', () => {
+        const f = fixture();
+        const never = () => { throw new Error('unexpected lifecycle call'); };
+        assert(lifecycle.executeManagedAction(f.context, 'check', { prepare: never, stop: never, start: never }).includes('conformes'));
+    });
+    test('corrupt payload and unconfirmed uninstall cannot interrupt applications', () => {
+        const f = fixture(); const never = () => { throw new Error('unexpected lifecycle call'); };
+        const apps = { prepare:never,stop:never,start:never };
+        put(path.join(f.context.packageRoot,'payload',operations.PLUGIN,'bin/plugin.js'),'corrupted');
+        assert.throws(() => lifecycle.executeManagedAction(f.context,'install-all',apps),/endommage/);
+        f.context.confirmed = false;
+        assert.throws(() => lifecycle.executeManagedAction(f.context,'uninstall',apps),/confirmation/);
+    });
+    test('a failed build still restarts both applications and keeps the active files', () => {
+        const f = fixture(), events = [];
+        f.context.execute = command => { if(command === 'pnpm.cmd build')throw new Error('build failed'); };
+        const apps = { prepare:()=>events.push('prepare'),stop:()=>events.push('stop'),start:()=>events.push('start') };
+        assert.throws(()=>lifecycle.executeManagedAction(f.context,'repair',apps),/build failed/);
+        assert.deepEqual(events,['prepare','stop','start']);
+        assert.equal(fs.readFileSync(path.join(f.runtime,'renderer.js'),'utf8'),'ShortcutToggle original renderer.js');
+    });
+    test('failed discovery does not close or restart any application', () => {
+        const calls=[];
+        assert.throws(()=>lifecycle.withApplications({prepare:()=>{throw Error('discovery failed');},stop:()=>calls.push('stop'),start:()=>calls.push('start')},()=>calls.push('operation')),/discovery failed/);
+        assert.deepEqual(calls,[]);
+    });
+    test('a partial close failure triggers reopening without changing files', () => {
+        const calls=[];
+        assert.throws(()=>lifecycle.withApplications({prepare:()=>{},stop:()=>{throw Error('stop failed');},start:()=>calls.push('start')},()=>calls.push('operation')),/stop failed/);
+        assert.deepEqual(calls,['start']);
+    });
+    test('reopening failure is not reported as a successful installation', () => {
+        const calls=[];
+        assert.throws(()=>lifecycle.withApplications({prepare:()=>{},stop:()=>{},start:()=>{throw Error('start failed');}},()=>{calls.push('operation');return 'installed';}),/fichiers ont ete traites.*start failed/);
+        assert.deepEqual(calls,['operation']);
+    });
+    test('an operation error and a restart error are both retained', () => {
+        assert.throws(()=>lifecycle.withApplications({prepare:()=>{},stop:()=>{},start:()=>{throw Error('start failed');}},()=>{throw Error('build failed');}),error=>error.message.includes('build failed')&&error.message.includes('start failed'));
     });
     console.log('\n' + count + ' assistant checks passed.');
 } finally {

@@ -4,7 +4,7 @@
 
 Garde tes touches pour écrire et jouer. Sur **OFF**, leurs actions Discord sont suspendues ; sur **ON**, elles fonctionnent à nouveau.
 
-[**Télécharger l’assistant Windows**](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.1.0.zip) · [**Installer, réparer ou désinstaller**](docs/INSTALLATION.fr.md) · [Signaler un problème](https://github.com/Sheixo/DiscordShortcuts/issues)
+[**Télécharger l’assistant Windows**](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.2.0.zip) · [**Installer, réparer ou désinstaller**](docs/INSTALLATION.fr.md) · [Signaler un problème](https://github.com/Sheixo/DiscordShortcuts/issues)
 
 > **Deux composants sont nécessaires :** le plugin Stream Deck et le connecteur ShortcutToggle dans Vencord. Cette version ne fonctionne pas avec Discord non modifié.
 
@@ -13,11 +13,11 @@ Garde tes touches pour écrire et jouer. Sur **OFF**, leurs actions Discord sont
 ## Installation rapide
 
 1. Télécharge le ZIP de l’assistant et utilise **Extraire tout**.
-2. Quitte complètement Discord et Stream Deck depuis leurs icônes près de l’horloge.
-3. Ouvre **DiscordShortcuts-Assistant.exe**, garde ton dossier Vencord existant et choisis **Tout installer**.
-4. Relance les applications, active **ShortcutToggle** dans les plugins Vencord et ajoute l’action **Discord Shortcuts** à une touche Stream Deck.
+2. Ouvre **DiscordShortcuts-Assistant.exe** et garde ton dossier Vencord existant.
+3. Clique sur **Tout installer** : l’assistant ferme les applications, installe et vérifie les fichiers, puis relance Discord et Stream Deck automatiquement.
+4. Active **ShortcutToggle** dans les plugins Vencord si nécessaire et ajoute l’action **Discord Shortcuts** à une touche Stream Deck.
 
-**Une seule fenêtre** propose **Tout installer**, **Stream Deck uniquement**, **Vérifier / Réparer** et **Tout désinstaller**. Le bouton **Vérifier seulement** contrôle les fichiers sans les modifier. Node.js 22 ou une version LTS plus récente, Git et pnpm restent nécessaires pour le connecteur ; le [guide](docs/INSTALLATION.fr.md) détaille les prérequis. Pour une mise à jour, réutilise **Tout installer** dans le nouveau paquet.
+**Une seule fenêtre** propose **Tout installer**, **Vérifier / Réparer** et **Tout désinstaller**. Ces trois actions gèrent la fermeture puis la relance des applications ; un éventuel appel vocal sera interrompu. Le bouton **Vérifier seulement** contrôle les fichiers sans les modifier ni redémarrer les applications. Node.js 22 ou une version LTS plus récente, Git et pnpm restent nécessaires pour le connecteur ; le [guide](docs/INSTALLATION.fr.md) détaille les prérequis. Pour une mise à jour, réutilise **Tout installer** dans le nouveau paquet.
 
 ![Assistant Windows — aperçu sans opérations](docs/assistant-windows.jpg)
 
@@ -51,7 +51,7 @@ Le connecteur reste nommé **ShortcutToggle** dans Vencord. Toute la gestion est
 | --- | --- | --- |
 | 0.4.0 | 0.4.0.0 | 0.3.0 |
 
-L’assistant Windows possède sa propre version **0.1.0**. Il regroupe les composants ci-dessus sans changer leur moteur.
+L’assistant Windows possède sa propre version **0.2.0**. Il regroupe les composants ci-dessus sans changer leur moteur.
 
 La nouvelle présentation conserve le moteur du connecteur déjà testé. [Détails des vérifications](docs/VALIDATION.fr.md) · [Changements](CHANGELOG.md) · [Développement](docs/DEVELOPPEMENT.fr.md).
 

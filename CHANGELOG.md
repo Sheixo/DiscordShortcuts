@@ -1,5 +1,13 @@
 # Changements
 
+## Assistant Windows 0.2.0 — 18 octobre 2026
+
+- Trois actions principales : Tout installer, Vérifier / Réparer et Tout désinstaller.
+- Fermeture puis relance automatiques de Discord et Stream Deck, y compris une tentative de relance après échec.
+- Attente de fin de compilation et vérification des fichiers avant la relance. Une relance impossible ne devient pas un faux succès.
+- Détection limitée aux exécutables officiels habituels dans la session Windows courante ; contrôle Vérifier seulement sans interruption.
+- Version visible dans le titre pour distinguer le nouvel assistant des anciennes fenêtres.
+
 ## Assistant Windows 0.1.0 — 18 octobre 2026
 
 - Nouvelle fenêtre : Tout installer, Stream Deck uniquement, Vérifier / Réparer, Tout désinstaller et contrôle des fichiers sans modification.

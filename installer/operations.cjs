@@ -244,21 +244,21 @@ function assertClosed(names) {
 }
 
 function executeAction(context, action) {
-    if (!['check', 'install-all', 'install-streamdeck', 'repair', 'uninstall'].includes(action)) fail('Action inconnue.');
+    if (!['check', 'install-all', 'repair', 'uninstall'].includes(action)) fail('Action inconnue.');
     context = { ...context, execute: context.execute || core.run, ensureClosed: context.ensureClosed || assertClosed };
     if (action === 'check') return inspect(context) ? 'Les fichiers des deux composants sont conformes.' : 'Verification terminee : consulte les points a corriger ci-dessous.';
-    if (action === 'uninstall') { uninstall(context); return 'Discord Shortcuts desinstalle. Tu peux relancer Discord et Stream Deck.'; }
+    if (action === 'uninstall') { uninstall(context); return 'Discord Shortcuts desinstalle.'; }
     payload(context); streamDeckLocation(context);
-    context.ensureClosed(action === 'install-streamdeck' ? ['StreamDeck.exe'] : ['Discord.exe', 'StreamDeck.exe']);
-    if (action !== 'install-streamdeck') {
+    context.ensureClosed(['Discord.exe', 'StreamDeck.exe']);
+    {
         context.source = prepareSource(context);
         const resources = core.findDiscord(context.localAppData);
         core.install({ source: context.source, appData: context.appData, resources,
             bundledConnector: path.join(context.packageRoot, 'shortcutToggle', 'index.tsx'), execute: context.execute,
-            ensureClosed: () => context.ensureClosed(['Discord.exe', 'StreamDeck.exe']) });
+            ensureClosed: () => context.ensureClosed(['Discord.exe', 'StreamDeck.exe']), showNextSteps: false });
     }
     installStreamDeck(context);
-    return action === 'install-streamdeck' ? 'Plugin installe. Relance Stream Deck et ajoute son action.' : 'Installation terminee. Relance Discord et Stream Deck ; active ShortcutToggle dans Vencord.';
+    return 'Installation terminee. Active ShortcutToggle dans Vencord si necessaire.';
 }
 
 module.exports = { UUID, PLUGIN, inside, listFiles, payload, streamDeckLocation, installStreamDeck,
