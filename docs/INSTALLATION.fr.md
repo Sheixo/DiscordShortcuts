@@ -1,68 +1,60 @@
-# Installer Discord Shortcuts
+# Installer ou mettre à jour Discord Shortcuts
 
-[← Accueil](../README.md) · [Téléchargements](https://github.com/Sheixo/DiscordShortcuts/releases/latest)
+[← Accueil](../README.md) · [Télécharger le paquet Windows](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-Installation-Windows-0.4.0.zip)
 
-Il faut installer **deux composants** : le connecteur dans Vencord et le plugin dans Stream Deck. Le bouton Stream Deck ne peut pas contrôler les raccourcis sans le connecteur.
+**Une seule procédure pour une première installation et pour les mises à jour.** Le paquet contient l’assistant du connecteur et l’installateur Stream Deck. Tu n’as pas de commandes PowerShell à recopier ni de fichiers compilés à déplacer toi-même.
+
+Deux composants restent nécessaires : **ShortcutToggle dans Vencord** et **Discord Shortcuts dans Stream Deck**. Cet assistant facilite leur installation ; il ne rend pas le plugin indépendant de Vencord.
 
 ## Avant de commencer
 
-- Discord officiel sous Windows 10 ou plus récent.
-- Stream Deck 7.1 ou plus récent.
-- Une installation Vencord construite depuis ses sources. Si tu n’en as pas encore, suis le [guide officiel des plugins personnalisés Vencord](https://docs.vencord.dev/installing/custom-plugins/), puis reprends ici.
+- **Discord officiel Stable**, sous Windows 10 ou plus récent.
+- **Stream Deck 7.1** ou plus récent.
+- [Node.js 22 ou une version LTS plus récente](https://nodejs.org/), [Git pour Windows](https://git-scm.com/downloads/win) et [pnpm](https://pnpm.io/installation), installés et accessibles dans le PATH. Ce sont les outils nécessaires à la compilation de Vencord.
+- Une connexion Internet pour les sources et les dépendances.
+
+Si tu possèdes déjà les sources Vencord avec d’autres plugins personnalisés, garde ce dossier : l’assistant peut le réutiliser. Il ne télécharge pas une nouvelle copie par-dessus un dossier existant et ne met pas automatiquement ses sources à jour.
 
 ## 1. Installer le connecteur Discord
 
-1. Télécharge **index.tsx** depuis la dernière publication. Avec l’archive complète, utilise le même fichier dans le dossier **shortcutToggle**.
-2. Ferme complètement Discord, y compris son icône près de l’horloge : un éventuel appel vocal sera interrompu.
-3. Dans ton dossier des sources Vencord, crée au besoin **src/userplugins/shortcutToggle**, puis remplace son **index.tsx** par le fichier téléchargé. Si tu possèdes l’ancien ShortcutToggle, remplace-le à cet emplacement plutôt que d’ajouter un second plugin.
-4. Ouvre PowerShell dans ton dossier Vencord et exécute :
+1. Télécharge [**DiscordShortcuts-Installation-Windows-0.4.0.zip**](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-Installation-Windows-0.4.0.zip), puis utilise **Extraire tout**. Garde ensemble tous les fichiers extraits.
+2. **Quitte complètement Discord depuis son icône près de l’horloge.** Un éventuel appel vocal sera interrompu.
+3. Dans le dossier extrait, double-clique sur **Installer-Connecteur.cmd**.
+4. L’assistant propose ton dossier **Documents\Vencord**. Appuie sur **Entrée** pour le garder, ou indique le dossier qui contient tes sources Vencord. Si le dossier choisi n’existe pas, l’assistant y télécharge les sources officielles.
+5. Attends le message **Installation terminée**. L’assistant place le connecteur, prépare les dépendances, compile Vencord, installe la compilation dans Discord si nécessaire et vérifie les fichiers réellement chargés. S’il existe deux copies de Vencord, il applique les fichiers à la bonne copie. Une sauvegarde des fichiers remplacés est conservée.
+6. Relance Discord, puis active **ShortcutToggle** dans **Paramètres → Vencord → Plugins**.
 
-   ~~~powershell
-   pnpm.cmd build
-   ~~~
+Le nom à rechercher dans Discord est **ShortcutToggle**. Les réglages du plugin se trouvent dans Stream Deck.
 
-5. Pour une première installation de Vencord depuis les sources, termine l’injection selon le guide officiel. Pour une simple mise à jour du connecteur sur une installation déjà injectée, la reconstruction suffit normalement : ne relance pas l’injection à chaque modification.
-6. Relance Discord et active **ShortcutToggle** dans **Paramètres → Vencord → Plugins**, s’il n’est pas déjà actif.
-
-Le connecteur n’a pas de panneau de contrôle dans Discord. Tous les réglages se trouvent dans Stream Deck.
+L’assistant utilise le [processus officiel de compilation et d’installation de Vencord](https://docs.vencord.dev/installing/). Il ne demande aucun identifiant Discord et ne modifie pas les fichiers de session.
 
 ## 2. Installer le plugin Stream Deck
 
-1. Télécharge **fr.ethan.discord-shortcuts.streamDeckPlugin** depuis la même publication.
-2. Ouvre ce fichier et accepte sa mise à jour dans Stream Deck si une ancienne version est présente.
-3. Ajoute l’action **Discord Shortcuts → Raccourcis Discord** à une touche. Les touches déjà configurées sont conservées grâce au même identifiant de plugin.
-4. Sélectionne la touche dans Stream Deck. Le panneau indique **Discord connecté**, puis affiche tes raccourcis.
-5. Appuie sur le bouton : **OFF** suspend les actions cochées ; **ON** les réactive.
+1. Dans le même dossier extrait, ouvre **fr.ethan.discord-shortcuts.streamDeckPlugin**. Accepte la mise à jour proposée par Stream Deck si une ancienne version est présente.
+2. Ajoute l’action de la catégorie **Discord Shortcuts** à une touche. Son nom peut apparaître comme **Discord Keybinds** ou **Raccourcis Discord**, selon la langue. Les touches déjà configurées conservent leur identifiant.
+3. Sélectionne la touche : le panneau doit indiquer **Discord connecté** et afficher tes raccourcis.
 
-Tu peux également télécharger l’archive **DiscordShortcuts-0.4.0.zip**, qui contient les sources, le connecteur, l’installateur et les guides.
+## Pour une prochaine mise à jour
 
-## Vérifier l’installation
+**Télécharge le nouveau paquet et refais les deux étapes ci-dessus.** Choisis le même dossier Vencord dans l’assistant. Il reprend la compilation et vérifie la copie active ; tu n’as pas à déterminer toi-même où copier les fichiers ou quand relancer l’injection.
 
-1. Mets OFF et essaie un raccourci Discord habituel : son action doit être suspendue.
-2. Décoche ce raccourci : son action doit redevenir disponible, sans repasser sur ON.
-3. Recoche-le, puis remets ON : son action doit fonctionner à nouveau.
-4. Vérifie que les touches restent utilisables pour écrire et jouer.
+Les vérifications de mise à jour du panneau restent disponibles, mais elles n’installent pas automatiquement le connecteur.
 
-Les nouveaux raccourcis se configurent dans Discord et apparaissent automatiquement dans la liste, cochés par défaut. Le redémarrage de Discord remet ON ; une reconnexion de Stream Deck conserve l’état existant.
+## Vérifier le fonctionnement
 
-## Dépannage
+1. Mets **OFF** et essaie un raccourci Discord habituel : son action doit être suspendue.
+2. Décoche ce raccourci dans Stream Deck : son action doit redevenir disponible, même sur OFF.
+3. Recoche-le, puis remets **ON** : son action doit fonctionner à nouveau.
 
-### Le panneau reste hors ligne
+Les touches restent utilisables pour écrire et jouer. Configure les nouveaux raccourcis dans Discord : ils apparaissent automatiquement, cochés par défaut, dans Stream Deck. Le redémarrage de Discord remet ON ; une reconnexion de Stream Deck conserve l’état existant.
 
-Vérifie que Discord officiel est ouvert, que Vencord est chargé et que **ShortcutToggle** est actif. Le connecteur requis est la version **0.3.0** ou compatible. Relance le compagnon Stream Deck si nécessaire, puis utilise **Actualiser la connexion** pour redemander l’état.
+## En cas de problème
 
-### La reconstruction ne change rien dans Discord
+- **L’assistant s’arrête :** lis la dernière ligne. Une erreur de téléchargement ou de compilation doit être résolue avant de relancer le même assistant. Il ne faut pas ajouter des commandes au hasard.
+- **ShortcutToggle est absent :** vérifie que l’assistant a terminé avec succès, puis ferme et relance complètement Discord. Après une réinstallation de Vencord ou une réparation de Discord, relance le même assistant pour réappliquer le connecteur.
+- **Le panneau Stream Deck reste hors ligne :** vérifie que Discord est ouvert, que ShortcutToggle est activé et que l’action Discord Shortcuts est présente. Utilise ensuite **Actualiser la connexion** dans le panneau.
+- **Discord utilise un autre dossier Vencord :** l’assistant affiche le dossier et s’arrête pour éviter de modifier une installation qu’il ne reconnaît pas. Choisis les sources correspondantes, ou joins ce message à une [demande d’aide](https://github.com/Sheixo/DiscordShortcuts/issues).
 
-Vérifie que tu reconstruis le dossier Vencord réellement chargé. Certaines installations chargent leurs fichiers depuis **%APPDATA%/Vencord/dist**, tandis que la compilation se fait dans un autre dossier **Vencord/dist**. Discord doit être complètement fermé lors du remplacement des fichiers compilés. Suis le guide officiel pour utiliser la bonne installation ; ne modifie pas les fichiers de session de Discord.
+Cette procédure vise **Discord Stable sous Windows**. Elle ne prend pas en charge Vesktop, Discord PTB/Canary, le navigateur, macOS ou Linux.
 
-### Une touche rouge ou verte ne correspond pas au panneau
-
-Les images et titres personnalisés dans Stream Deck peuvent masquer ceux du plugin. Retrouve les images par défaut sur la touche si tu veux voir l’état fourni. Une commande sans confirmation n’est jamais renvoyée automatiquement : contrôle la connexion avant de réessayer.
-
-### Les mises à jour sont introuvables
-
-Vérifie Internet et réessaie dans **Mises à jour**. La vérification quotidienne peut être désactivée ; le téléchargement et l’installation restent manuels. Les liens et la recherche de cette version utilisent le nouveau dépôt **Sheixo/DiscordShortcuts**.
-
-### J’utilise Vesktop
-
-Cette version vise les raccourcis natifs de Discord officiel sous Windows. La présence de Vencord dans Vesktop ne garantit pas leur disponibilité.
+Pour le développement manuel, les fichiers source du connecteur restent dans **shortcutToggle/** ; consulte le [guide officiel des plugins personnalisés Vencord](https://docs.vencord.dev/installing/custom-plugins/) et le [guide de développement du projet](DEVELOPPEMENT.fr.md).

@@ -2,6 +2,10 @@
 
 Le connecteur est dans **shortcutToggle/**. Le plugin Stream Deck est dans **stream-deck/**. Le connecteur dépend des sources et des fonctions internes de Vencord/Discord.
 
+L’assistant Windows est **Installer-Connecteur.cmd** avec **scripts/installer-connecteur.cjs**. Il réutilise les sources Vencord choisies, compile le connecteur et lit le petit bootstrap Vencord de Discord pour trouver la copie active. Une destination étrangère est refusée. Les comptes et fichiers de session ne sont pas lus. L’installation initiale utilise le script officiel **scripts/runInstaller.mjs** des sources Vencord, avec Discord Stable comme cible.
+
+Les tests de cet assistant se lancent séparément avec **node tests/installer-connecteur.cjs** et font également partie de **npm test**. Ils utilisent des installations fictives ; aucune injection réelle n’est exécutée par les tests. Le mode **node scripts/installer-connecteur.cjs --check --vencord "chemin"** vérifie une installation existante sans la modifier.
+
 ~~~powershell
 npm ci
 npm test

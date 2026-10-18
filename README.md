@@ -4,7 +4,7 @@
 
 Garde tes touches pour écrire et jouer. Sur **OFF**, leurs actions Discord sont suspendues ; sur **ON**, elles fonctionnent à nouveau.
 
-[**Télécharger la dernière version**](https://github.com/Sheixo/DiscordShortcuts/releases/latest) · [**Installer en deux étapes**](docs/INSTALLATION.fr.md) · [Signaler un problème](https://github.com/Sheixo/DiscordShortcuts/issues)
+[**Télécharger le paquet d’installation Windows**](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-Installation-Windows-0.4.0.zip) · [**Installer ou mettre à jour**](docs/INSTALLATION.fr.md) · [Signaler un problème](https://github.com/Sheixo/DiscordShortcuts/issues)
 
 > **Deux composants sont nécessaires :** le plugin Stream Deck et le connecteur ShortcutToggle dans Vencord. Cette version ne fonctionne pas avec Discord non modifié.
 
@@ -14,9 +14,11 @@ Garde tes touches pour écrire et jouer. Sur **OFF**, leurs actions Discord sont
 
 | 1. Dans Discord | 2. Dans Stream Deck |
 | --- | --- |
-| Installe le connecteur **ShortcutToggle** dans une installation Vencord construite depuis ses sources, puis active-le. | Ouvre l’installateur **Discord Shortcuts**, ajoute son action à une touche et sélectionne-la pour régler tes raccourcis. |
+| Dans le paquet extrait, lance **Installer-Connecteur.cmd**, puis active **ShortcutToggle** dans Discord. L’assistant compile et applique les fichiers au bon emplacement. | Ouvre le fichier **.streamDeckPlugin** du même paquet, ajoute son action à une touche et sélectionne-la pour régler tes raccourcis. |
 
-**Téléchargements :** [Connecteur Vencord](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/index.tsx) · [Plugin Stream Deck](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/fr.ethan.discord-shortcuts.streamDeckPlugin) · [Archive complète](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-0.4.0.zip).
+**Un seul paquet à extraire :** [installation Windows](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-Installation-Windows-0.4.0.zip). Il contient l’assistant du connecteur et l’installateur Stream Deck. Les outils Node.js, Git et pnpm restent nécessaires ; le guide explique les prérequis. Pour une mise à jour, réutilise la même procédure.
+
+Fichiers séparés pour les utilisateurs avancés : [connecteur Vencord](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/index.tsx) · [plugin Stream Deck](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/fr.ethan.discord-shortcuts.streamDeckPlugin) · [archive des sources et fichiers de la version initiale](https://github.com/Sheixo/DiscordShortcuts/releases/latest/download/DiscordShortcuts-0.4.0.zip).
 
 Le [guide détaillé](docs/INSTALLATION.fr.md) explique l’installation et la mise à jour.
 
@@ -34,7 +36,7 @@ Au redémarrage de Discord, le connecteur repart sur **ON**. Crée ou modifie te
 
 ## Compatibilité
 
-Discord officiel sous **Windows 10 ou plus récent**, Vencord construit depuis ses sources et **Stream Deck 7.1 ou plus récent**. Les raccourcis clavier, les combinaisons et les boutons souris personnalisés sont pris en charge. Vesktop, le navigateur, macOS et Linux ne sont pas annoncés comme compatibles.
+Discord officiel **Stable** sous **Windows 10 ou plus récent**, Vencord construit depuis ses sources et **Stream Deck 7.1 ou plus récent**. Les raccourcis clavier, les combinaisons et les boutons souris personnalisés sont pris en charge. Vesktop, Discord PTB/Canary, le navigateur, macOS et Linux ne sont pas annoncés comme compatibles.
 
 Le connecteur reste nommé **ShortcutToggle** dans Vencord. Toute la gestion est dans Stream Deck : aucun bouton Discord ni raccourci F13 supplémentaire n’est installé.
 

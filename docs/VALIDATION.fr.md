@@ -1,5 +1,12 @@
 # Validation — 16 octobre 2026
 
+## Assistant d’installation — 18 octobre 2026
+
+- 25 tests dédiés réussis : lecture du bootstrap sans exécution de code, choix de la version Discord, destinations refusées, compilation sans connecteur, fichiers manquants, sauvegarde, copie interrompue et restauration, installation initiale, mise à jour sans réinjection et réouverture de Discord pendant la préparation.
+- Les tests de première installation et d’échec d’injection utilisent des processus simulés. Un essai complet de première installation sur un PC vierge n’a pas été effectué.
+- Contrôle en lecture seule effectué sur le PC de développement : la copie chargée depuis AppData correspond aux fichiers compilés contenant ShortcutToggle. Ce contrôle ne prouve pas à lui seul la connexion en cours à Stream Deck.
+- Après application de cette compilation et rechargement de Discord, ShortcutToggle apparaît dans Vencord et est activé. Le moteur du connecteur et l’installateur Stream Deck restent ceux de la version publiée.
+
 ## Version publiée
 
 Discord Shortcuts 0.4.0 : plugin Stream Deck **0.4.0.0**, connecteur Vencord **0.3.0**.
