@@ -11,6 +11,7 @@ const REQUIRED = ['patcher.js', 'preload.js', 'renderer.js', 'renderer.css'];
 const OPTIONAL = ['patcher.js.LEGAL.txt', 'patcher.js.map', 'preload.js.map',
     'renderer.css.map', 'renderer.js.LEGAL.txt', 'renderer.js.map'];
 const VENCORD_REPO = 'https://github.com/Vendicated/Vencord.git';
+const MIN_VENCORD = '1.15.16'; // First stable release with the November 2026 Discord loader fixes.
 const fail = message => { throw new Error(message); };
 const samePath = (a, b) => path.resolve(a).toLowerCase() === path.resolve(b).toLowerCase();
 const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
@@ -21,6 +22,72 @@ function sourceIsValid(source) {
         return pkg.name === 'vencord' && ['src/utils/types.ts', 'scripts/runInstaller.mjs']
             .every(file => fs.statSync(path.join(source, file)).isFile());
     } catch { return false; }
+}
+
+function versionParts(version) {
+    return typeof version === 'string' && /^\d{1,6}\.\d{1,6}\.\d{1,6}$/.test(version) ? version.split('.').map(Number) : null;
+}
+
+function compareVersions(a, b) {
+    const left = versionParts(a), right = versionParts(b);
+    if (!left || !right) fail('Version Vencord non reconnue. Choisis des sources stables.');
+    for (let i = 0; i < 3; i++) if (left[i] !== right[i]) return left[i] - right[i];
+    return 0;
+}
+
+function sourceVersion(source) {
+    if (!sourceIsValid(source)) fail('Le dossier choisi ne contient pas les sources Vencord.');
+    const { version } = JSON.parse(fs.readFileSync(path.join(source, 'package.json'), 'utf8'));
+    if (!versionParts(version)) fail('Version Vencord non reconnue. Choisis des sources stables.');
+    return version;
+}
+
+function compiledVersion(runtime) {
+    if (!runtime) return null;
+    const file = path.join(runtime, 'renderer.js');
+    if (!fs.existsSync(file)) return null;
+    // The official renderer's build-info string, read as data without executing it.
+    return fs.readFileSync(file, 'utf8').match(/\bVencord:\s*[`"']v(\d{1,6}\.\d{1,6}\.\d{1,6})\s+(?:\\u2022|•)/)?.[1] ?? null;
+}
+
+function requiredVersion(runtime) {
+    const active = compiledVersion(runtime);
+    return active && compareVersions(active, MIN_VENCORD) > 0 ? active : MIN_VENCORD;
+}
+
+function assertCompatibleSource(source, runtime) {
+    const version = sourceVersion(source), minimum = requiredVersion(runtime);
+    if (compareVersions(version, minimum) < 0)
+        fail(`Sources Vencord ${version} trop anciennes : version ${minimum} minimum. Aucun fichier actif modifie.`);
+    return version;
+}
+
+function gitRead(source, args) {
+    const result = cp.spawnSync('git', args, { cwd: source, encoding: 'utf8', windowsHide: true, timeout: 45000,
+        env: { ...process.env, GIT_TERMINAL_PROMPT: '0' } });
+    if (result.error || result.status !== 0) fail('La mise a jour Git de Vencord a echoue. Aucun fichier actif modifie.');
+    return result.stdout.trim();
+}
+
+function updateCompatibleSource(source, runtime, git = gitRead) {
+    const version = sourceVersion(source), minimum = requiredVersion(runtime);
+    if (compareVersions(version, minimum) >= 0) return version;
+    const advice = `Sources Vencord ${version} trop anciennes : ${minimum} minimum. Mets ce dossier a jour manuellement ou choisis des sources compatibles. Aucun fichier actif modifie.`;
+    if (!fs.existsSync(path.join(source, '.git'))) fail(advice);
+    const top = git(source, ['rev-parse', '--show-toplevel']);
+    const origin = git(source, ['remote', 'get-url', 'origin']);
+    if (!samePath(top, source) || !/^(?:https:\/\/github\.com\/|git@github\.com:)Vendicated\/Vencord(?:\.git)?\/?$/i.test(origin)) fail(advice);
+    if (git(source, ['--no-optional-locks', 'status', '--porcelain=v1', '--untracked-files=no']) || git(source, ['ls-files', '--', 'dist']))
+        fail('Le dossier Vencord contient des modifications suivies ou des fichiers compiles suivis. ' + advice);
+    console.log(`Mise a jour des sources Vencord ${version} (minimum ${minimum})…`);
+    git(source, ['fetch', '--no-tags', '--', VENCORD_REPO, 'refs/heads/main']);
+    const commit = git(source, ['rev-parse', '--verify', 'FETCH_HEAD^{commit}']);
+    if (!/^[0-9a-f]{40}$/.test(commit)) fail(advice);
+    const incoming = JSON.parse(git(source, ['show', commit + ':package.json']));
+    if (incoming.name !== 'vencord' || !versionParts(incoming.version) || compareVersions(incoming.version, minimum) < 0) fail(advice);
+    // Never force/reset, and don't overwrite even ignored user plugin files.
+    git(source, ['merge', '--ff-only', '--no-overwrite-ignore', '--', commit]);
+    return assertCompatibleSource(source, runtime);
 }
 
 // Only read the small Vencord bootstrap archive, never the original Discord archive.
@@ -108,6 +175,10 @@ function backupDirectory(source) {
 
 function applyBuild(source, runtime, backup, expectConnector = true) {
     verifyBuild(source, expectConnector);
+    const version = assertCompatibleSource(source, runtime);
+    const built = compiledVersion(path.join(source, 'dist'));
+    if (built && compareVersions(built, version) !== 0)
+        fail('La version compilee ne correspond pas aux sources Vencord. Aucun fichier actif modifie.');
     if (!samePath(path.join(source, 'dist'), runtime)) {
         const files = [...REQUIRED, ...OPTIONAL].filter(name => fs.existsSync(path.join(source, 'dist', name)));
         for (const name of files) {
@@ -161,6 +232,7 @@ function check(source, appData, resources) {
     verifyBuild(source);
     const runtime = resolveRuntime(source, appData, readBootstrap(resources));
     if (!runtime) fail('La compilation personnalisee de Vencord n\'est pas encore installee dans Discord.');
+    assertCompatibleSource(source, runtime);
     const current = fs.existsSync(path.join(runtime, 'renderer.js')) &&
         fs.readFileSync(path.join(runtime, 'renderer.js'), 'utf8').includes('ShortcutToggle');
     console.log('Sources Vencord : ' + source);
@@ -178,6 +250,7 @@ function install({ source, appData, resources, bundledConnector, execute = run, 
     if (!sourceIsValid(source)) fail('Le dossier choisi ne contient pas les sources de Vencord.');
     // Refuse an unknown existing injection before changing the source or running a build.
     const previousRuntime = resolveRuntime(source, appData, readBootstrap(resources));
+    assertCompatibleSource(source, previousRuntime);
     const connectorText = fs.readFileSync(bundledConnector, 'utf8');
     if (!connectorText.includes('name: "ShortcutToggle"')) fail('Connecteur fourni invalide.');
     const backup = backupDirectory(source);
@@ -283,7 +356,8 @@ function parseArguments(args) {
 }
 
 module.exports = { bootstrapTarget, readBootstrap, findDiscord, resolveRuntime, sourceIsValid,
-    verifyBuild, applyBuild, install, check, pnpm, parseArguments, run, backupDirectory, REQUIRED, OPTIONAL };
+    verifyBuild, applyBuild, install, check, pnpm, parseArguments, run, backupDirectory, REQUIRED, OPTIONAL,
+    MIN_VENCORD, compareVersions, compiledVersion, assertCompatibleSource, updateCompatibleSource };
 if (require.main === module) main(process.argv.slice(2)).catch(error => {
     console.error('\nECHEC : ' + error.message);
     console.error('Aucune connexion Discord n\'est demandee. Aide : https://github.com/Sheixo/DiscordShortcuts/blob/main/docs/INSTALLATION.fr.md');

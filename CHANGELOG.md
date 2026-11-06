@@ -1,5 +1,12 @@
 # Changements
 
+## Assistant Windows 0.3.0 — 6 novembre 2026
+
+- Exige Vencord 1.15.16 ou plus récent après la mise à jour du chargeur de modules de Discord.
+- Contrôle les sources avant de fermer Discord ou Stream Deck ; mise à jour Git uniquement par avance rapide d’un dépôt officiel sans changements suivis.
+- Refuse les retours à une version antérieure lorsqu’il reconnaît la version active, et refuse un résultat compilé dont la version diffère de celle des sources.
+- Le connecteur et le plugin Stream Deck sont inchangés.
+
 ## Assistant Windows 0.2.0 — 18 octobre 2026
 
 - Trois actions principales : Tout installer, Vérifier / Réparer et Tout désinstaller.

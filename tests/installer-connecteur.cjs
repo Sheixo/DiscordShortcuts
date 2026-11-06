@@ -31,7 +31,7 @@ function fixture() {
     const resources = path.join(root, 'Discord', 'app-1.2.3', 'resources');
     const runtime = path.join(appData, 'Vencord', 'dist');
     for (const dir of [source, resources, runtime, path.join(source, 'src/utils'), path.join(source, 'scripts'), path.join(source, 'dist')]) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(source, 'package.json'), '{"name":"vencord"}');
+    fs.writeFileSync(path.join(source, 'package.json'), '{"name":"vencord","version":"1.15.16"}');
     fs.writeFileSync(path.join(source, 'src/utils/types.ts'), 'types');
     fs.writeFileSync(path.join(source, 'scripts/runInstaller.mjs'), 'installer');
     const bundledConnector = path.join(root, 'index.tsx');
@@ -44,6 +44,45 @@ function fixture() {
     return { root, source, appData, resources, runtime, bundledConnector };
 }
 try {
+    test('fast-forwards a clean upstream checkout without removing custom files', () => {
+        const f = fixture(), commands = [];
+        const commit = 'a'.repeat(40);
+        const manifest = path.join(f.source, 'package.json');
+        const userFile = path.join(f.source, 'custom.txt');
+        fs.mkdirSync(path.join(f.source, '.git'));
+        fs.writeFileSync(manifest, '{"name":"vencord","version":"1.15.11"}');
+        fs.writeFileSync(userFile, 'keep me');
+        const git = (dir, args) => {
+            assert.equal(dir, f.source); commands.push(args);
+            switch (args[0]) {
+                case 'rev-parse': return args[1] === '--verify' ? commit : f.source;
+                case 'remote': return 'https://github.com/Vendicated/Vencord.git';
+                case 'show': return '{"name":"vencord","version":"1.15.16"}';
+                case 'merge': fs.writeFileSync(manifest, '{"name":"vencord","version":"1.15.16"}'); break;
+            }
+            return '';
+        };
+        assert.equal(installer.updateCompatibleSource(f.source, f.runtime, git), '1.15.16');
+        assert(commands.some(a => a[0] === 'fetch' && a.includes('https://github.com/Vendicated/Vencord.git')));
+        assert.deepEqual(commands.at(-1), ['merge', '--ff-only', '--no-overwrite-ignore', '--', commit]);
+        assert.equal(fs.readFileSync(userFile, 'utf8'), 'keep me');
+    });
+    test('tracked edits block a source update before fetching or merging', () => {
+        const f = fixture(); fs.mkdirSync(path.join(f.source, '.git'));
+        fs.writeFileSync(path.join(f.source, 'package.json'), '{"name":"vencord","version":"1.15.11"}');
+        assert.throws(() => installer.updateCompatibleSource(f.source, f.runtime, (dir, args) => {
+            if (args[0] === 'rev-parse') return dir;
+            if (args[0] === 'remote') return 'https://github.com/Vendicated/Vencord.git';
+            if (args[0] === '--no-optional-locks') return ' M package.json';
+            throw Error('unexpected Git action');
+        }), /modifications suivies/);
+    });
+    test('refuses an old compiled renderer even when the source manifest has been updated', () => {
+        const f = fixture();
+        fs.writeFileSync(path.join(f.source, 'dist', 'renderer.js'), '({Vencord:`v1.15.11 \\u2022 info`}); ShortcutToggle');
+        assert.throws(() => installer.applyBuild(f.source, f.runtime, f.root), /version compilee/);
+        assert.equal(fs.readFileSync(path.join(f.runtime, 'renderer.js'), 'utf8'), 'old renderer.js');
+    });
     test('reads the real bootstrap format without executing JavaScript', () => {
         const target = 'C:\\Users\\Example\\AppData\\Roaming\\Vencord\\dist\\patcher.js';
         assert.equal(installer.bootstrapTarget(asar(target)), target);

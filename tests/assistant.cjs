@@ -26,7 +26,7 @@ function fixture() {
     const runtime = path.join(appData, 'Vencord/dist');
     const resources = path.join(localAppData, 'Discord/app-1.0.100/resources');
     const target = path.join(appData, 'Elgato/StreamDeck/Plugins', operations.PLUGIN);
-    put(path.join(source, 'package.json'), '{"name":"vencord"}');
+    put(path.join(source, 'package.json'), '{"name":"vencord","version":"1.15.16"}');
     put(path.join(source, 'src/utils/types.ts'), 'types');
     put(path.join(source, 'scripts/runInstaller.mjs'), 'official installer');
     put(path.join(source, 'src/userplugins/shortcutToggle/index.tsx'), 'name: "ShortcutToggle"');
@@ -55,6 +55,24 @@ function fixture() {
     return { context, base, runtime, resources, target, manifest };
 }
 try {
+    test('all mutating assistant actions reject stale non-Git sources before closing apps', () => {
+        for (const action of ['install-all', 'repair', 'uninstall']) {
+            const f = fixture();
+            put(path.join(f.context.source, 'package.json'), '{"name":"vencord","version":"1.15.11"}');
+            const never = () => { throw Error('applications must stay open'); };
+            assert.throws(() => lifecycle.executeManagedAction(f.context, action,
+                { prepare: never, stop: never, start: never }), /1\.15\.11.*1\.15\.16/);
+            assert(fs.readFileSync(path.join(f.runtime, 'renderer.js'), 'utf8').includes('ShortcutToggle original'));
+            assert(fs.existsSync(f.target));
+        }
+    });
+    test('repair refuses to downgrade an active newer Vencord', () => {
+        const f = fixture();
+        put(path.join(f.runtime, 'renderer.js'), '({Vencord:`v1.16.2 \\u2022 info`}); ShortcutToggle');
+        const never = () => { throw Error('applications must stay open'); };
+        assert.throws(() => lifecycle.executeManagedAction(f.context, 'repair',
+            { prepare: never, stop: never, start: never }), /1\.15\.16.*1\.16\.2/);
+    });
     test('payload hash detects damaged files before installation', () => {
         const f = fixture(); put(path.join(f.context.packageRoot, 'payload', operations.PLUGIN, 'bin/plugin.js'), 'corrupted');
         assert.throws(() => operations.payload(f.context), /endommage/);

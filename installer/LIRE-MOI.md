@@ -1,4 +1,4 @@
-# Discord Shortcuts — Assistant Windows 0.2.0
+# Discord Shortcuts — Assistant Windows 0.3.0
 
 Extrais tout le ZIP, puis ouvre **DiscordShortcuts-Assistant.exe**. Garde tous les fichiers du dossier ensemble. Une fenêtre marquée **Aperçu** n’exécute aucune opération.
 
@@ -10,7 +10,7 @@ Windows 10 ou plus récent, Discord officiel Stable et Stream Deck 7.1 ou plus r
 - Git : https://git-scm.com/downloads/win
 - pnpm : https://pnpm.io/installation
 
-Vencord reste nécessaire. Choisis ton dossier de sources Vencord existant pour conserver tes autres plugins.
+Vencord reste nécessaire. Choisis ton dossier de sources Vencord existant pour conserver tes autres plugins. Les sources doivent être en version 1.15.16 ou plus récente, et au moins aussi récentes que la copie active lorsque sa version est reconnue. L’assistant peut avancer un dépôt Git officiel sans modifications suivies ; sinon il s’arrête avant de fermer les applications.
 
 ## Trois actions
 
@@ -34,7 +34,7 @@ Les sauvegardes restent dans **.discord-shortcuts-backups** sous les sources Ven
 
 ## Aide
 
-Assistant 0.2.0, plugin Stream Deck 0.4.0.0 et connecteur 0.3.0. L’installation des mises à jour reste manuelle.
+Assistant 0.3.0, plugin Stream Deck 0.4.0.0 et connecteur 0.3.0. L’installation des mises à jour reste manuelle.
 
 Guide : https://github.com/Sheixo/DiscordShortcuts/blob/main/docs/INSTALLATION.fr.md
 

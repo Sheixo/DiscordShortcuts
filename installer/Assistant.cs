@@ -9,7 +9,7 @@ using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 [assembly: System.Reflection.AssemblyTitle("Discord Shortcuts Assistant")]
-[assembly: System.Reflection.AssemblyVersion("0.2.0.0")]
+[assembly: System.Reflection.AssemblyVersion("0.3.0.0")]
 
 internal sealed class Assistant : Form {
     private readonly Color background = Color.FromArgb(18, 22, 31);
@@ -37,7 +37,7 @@ internal sealed class Assistant : Form {
 
     private Assistant(bool previewMode) {
         preview = previewMode;
-        Text = "Discord Shortcuts — Assistant 0.2.0" + (preview ? " — Aperçu" : "");
+        Text = "Discord Shortcuts — Assistant 0.3.0" + (preview ? " — Aperçu" : "");
         ClientSize = new Size(940, 780);
         MinimumSize = new Size(956, 819);
         StartPosition = FormStartPosition.CenterScreen;
@@ -50,7 +50,7 @@ internal sealed class Assistant : Form {
         title.Font = new Font("Segoe UI Semibold", 25F);
         TextLabel("Installer, réparer ou retirer les deux composants depuis une seule fenêtre.", 32, 72, 860, 27, 11, muted);
         TextLabel("WINDOWS  ·  DISCORD STABLE  ·  VENCORD REQUIS", 33, 106, 720, 25, 9, muted);
-        Label version = TextLabel("Assistant 0.2.0", 775, 32, 140, 26, 9, muted);
+        Label version = TextLabel("Assistant 0.3.0", 775, 32, 140, 26, 9, muted);
         version.TextAlign = ContentAlignment.MiddleRight;
 
         Panel location = new Panel { Location = new Point(30, 145), Size = new Size(880, 110), BackColor = panel };

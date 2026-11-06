@@ -1,4 +1,10 @@
-# Validation — mise à jour le 18 octobre 2026
+# Validation — mise à jour le 6 novembre 2026
+
+## Assistant Windows 0.3.0 — 6 novembre 2026
+
+- Le démarrage de Discord a été vérifié avec Vencord 1.15.16 et ShortcutToggle : l’interface a chargé, le connecteur a démarré et Discord s’est connecté. L’erreur observée avec Vencord 1.15.11 ne s’est pas reproduite.
+- Vérification sans écriture de l’assistant sur cette installation : les deux composants sont conformes avec les sources corrigées ; les anciennes sources sont refusées.
+- Tests de refus d’une version trop ancienne avant fermeture des applications, d’un retour à une version antérieure à la compilation active, d’une compilation dont la version ne correspond pas et d’un dépôt contenant des modifications suivies. Avance rapide également vérifiée dans un dépôt Git de test en conservant un plugin local ignoré.
 
 ## Assistant graphique Windows 0.2.0 — 18 octobre 2026
 

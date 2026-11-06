@@ -170,6 +170,7 @@ function uninstall(context) {
         return;
     }
     if (!core.sourceIsValid(source)) fail('Les sources Vencord sont necessaires pour retirer uniquement ShortcutToggle en conservant les autres plugins. Choisis le bon dossier.');
+    core.assertCompatibleSource(source, runtime);
     for (const part of ['src', 'src/userplugins', 'src/userplugins/shortcutToggle']) {
         const entry = inside(source, path.join(source, part));
         if (exists(entry) && fs.lstatSync(entry).isSymbolicLink()) fail('Le chemin du connecteur est redirige. Desinstallation annulee.');
@@ -218,6 +219,21 @@ function prepareSource(context) {
     return fs.realpathSync(source);
 }
 
+function prepareCompatibleSource(context, action) {
+    let resources = null;
+    if (action === 'uninstall') {
+        try { resources = core.findDiscord(context.localAppData); } catch { /* Discord may already be absent. */ }
+    } else resources = core.findDiscord(context.localAppData);
+    const selected = path.resolve(context.source);
+    const source = action === 'uninstall' ? selected : prepareSource(context);
+    const runtime = resources ? core.resolveRuntime(source, context.appData, core.readBootstrap(resources)) : null;
+    if (action === 'uninstall' && !exists(path.join(source, 'src', 'userplugins', 'shortcutToggle')) &&
+        !(runtime && exists(path.join(runtime, 'renderer.js')) && fs.readFileSync(path.join(runtime, 'renderer.js'), 'utf8').includes('ShortcutToggle')))
+        return source;
+    core.updateCompatibleSource(source, runtime, context.git);
+    return source;
+}
+
 function inspect(context) {
     const lines = [];
     try {
@@ -262,4 +278,4 @@ function executeAction(context, action) {
 }
 
 module.exports = { UUID, PLUGIN, inside, listFiles, payload, streamDeckLocation, installStreamDeck,
-    removeStreamDeck, uninstall, inspect, executeAction, assertClosed };
+    removeStreamDeck, uninstall, inspect, executeAction, assertClosed, prepareCompatibleSource };

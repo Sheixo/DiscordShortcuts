@@ -39,7 +39,9 @@ function executeManagedAction(context, action, applications = null) {
     // Verify the supplied files and destination before interrupting the applications.
     if (action !== 'uninstall') operations.payload(context);
     operations.streamDeckLocation(context);
-    return withApplications(applications || controller(context.packageRoot), () => operations.executeAction(context, action));
+    console.log('@@STATUS Verification des sources Vencord avant de fermer les applications…');
+    const source = operations.prepareCompatibleSource(context, action);
+    return withApplications(applications || controller(context.packageRoot), () => operations.executeAction({ ...context, source }, action));
 }
 
 module.exports = { controller, withApplications, executeManagedAction };
