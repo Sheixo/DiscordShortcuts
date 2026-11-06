@@ -9,9 +9,10 @@ using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 [assembly: System.Reflection.AssemblyTitle("Discord Shortcuts Assistant")]
-[assembly: System.Reflection.AssemblyVersion("0.3.0.0")]
+[assembly: System.Reflection.AssemblyVersion("0.3.1.0")]
 
 internal sealed class Assistant : Form {
+    private static readonly string VersionLabel = "Assistant " + typeof(Assistant).Assembly.GetName().Version.ToString(3);
     private readonly Color background = Color.FromArgb(18, 22, 31);
     private readonly Color panel = Color.FromArgb(27, 33, 45);
     private readonly Color muted = Color.FromArgb(165, 177, 198);
@@ -37,7 +38,8 @@ internal sealed class Assistant : Form {
 
     private Assistant(bool previewMode) {
         preview = previewMode;
-        Text = "Discord Shortcuts — Assistant 0.3.0" + (preview ? " — Aperçu" : "");
+        Text = "Discord Shortcuts — " + VersionLabel + (preview ? " — Aperçu" : "");
+        Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         ClientSize = new Size(940, 780);
         MinimumSize = new Size(956, 819);
         StartPosition = FormStartPosition.CenterScreen;
@@ -46,11 +48,18 @@ internal sealed class Assistant : Form {
         Font = new Font("Segoe UI", 10F);
         AutoScaleMode = AutoScaleMode.Dpi;
 
-        Label title = TextLabel("Discord Shortcuts", 30, 22, 650, 43, 25, Color.White);
+        if (Icon != null) {
+            Bitmap logo = Icon.ToBitmap();
+            PictureBox badge = new PictureBox { Image = logo, SizeMode = PictureBoxSizeMode.Zoom,
+                Location = new Point(30, 23), Size = new Size(42, 42), TabStop = false };
+            badge.Disposed += delegate { logo.Dispose(); };
+            Controls.Add(badge);
+        }
+        Label title = TextLabel("Discord Shortcuts", 84, 22, 650, 43, 25, Color.White);
         title.Font = new Font("Segoe UI Semibold", 25F);
         TextLabel("Installer, réparer ou retirer les deux composants depuis une seule fenêtre.", 32, 72, 860, 27, 11, muted);
         TextLabel("WINDOWS  ·  DISCORD STABLE  ·  VENCORD REQUIS", 33, 106, 720, 25, 9, muted);
-        Label version = TextLabel("Assistant 0.3.0", 775, 32, 140, 26, 9, muted);
+        Label version = TextLabel(VersionLabel, 775, 32, 140, 26, 9, muted);
         version.TextAlign = ContentAlignment.MiddleRight;
 
         Panel location = new Panel { Location = new Point(30, 145), Size = new Size(880, 110), BackColor = panel };

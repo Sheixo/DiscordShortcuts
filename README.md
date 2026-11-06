@@ -4,7 +4,7 @@
 
 Garde tes touches pour écrire et jouer. Sur **OFF**, leurs actions Discord sont suspendues ; sur **ON**, elles fonctionnent à nouveau.
 
-[**Télécharger l’assistant Windows**](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.3.0.zip) · [**Installer, réparer ou désinstaller**](docs/INSTALLATION.fr.md) · [Signaler un problème](https://github.com/Sheixo/DiscordShortcuts/issues)
+[**Télécharger l’assistant Windows**](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.3.1.zip) · [**Installer, réparer ou désinstaller**](docs/INSTALLATION.fr.md) · [Signaler un problème](https://github.com/Sheixo/DiscordShortcuts/issues)
 
 > **Deux composants sont nécessaires :** le plugin Stream Deck et le connecteur ShortcutToggle dans Vencord. Cette version ne fonctionne pas avec Discord non modifié.
 
@@ -51,7 +51,7 @@ Le connecteur reste nommé **ShortcutToggle** dans Vencord. Toute la gestion est
 | --- | --- | --- |
 | 0.4.0 | 0.4.0.0 | 0.3.0 |
 
-L’assistant Windows **0.3.0** exige des sources Vencord **1.15.16 ou plus récentes**. Il refuse une version antérieure à celle déjà chargée lorsqu’il reconnaît cette dernière. Il peut mettre à jour un dépôt Git officiel sans changements suivis avant de fermer les applications. Le moteur du connecteur et le plugin Stream Deck restent identiques.
+L’assistant Windows **0.3.1** affiche le nouveau logo dans la fenêtre, la barre des tâches et l’Explorateur. Il exige des sources Vencord **1.15.16 ou plus récentes**. Il refuse une version antérieure à celle déjà chargée lorsqu’il reconnaît cette dernière. Il peut mettre à jour un dépôt Git officiel sans changements suivis avant de fermer les applications. Le moteur du connecteur et le plugin Stream Deck restent identiques.
 
 La nouvelle présentation conserve le moteur du connecteur déjà testé. [Détails des vérifications](docs/VALIDATION.fr.md) · [Changements](CHANGELOG.md) · [Développement](docs/DEVELOPPEMENT.fr.md).
 

@@ -1,5 +1,9 @@
 # Changements
 
+## Assistant Windows 0.3.1 — 6 novembre 2026
+
+- Ajoute un logo à l’exécutable, à la fenêtre et à la barre des tâches.
+
 ## Assistant Windows 0.3.0 — 6 novembre 2026
 
 - Exige Vencord 1.15.16 ou plus récent après la mise à jour du chargeur de modules de Discord.

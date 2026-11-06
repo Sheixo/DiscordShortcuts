@@ -1,4 +1,4 @@
-# Discord Shortcuts — Assistant Windows 0.3.0
+# Discord Shortcuts — Assistant Windows 0.3.1
 
 Extrais tout le ZIP, puis ouvre **DiscordShortcuts-Assistant.exe**. Garde tous les fichiers du dossier ensemble. Une fenêtre marquée **Aperçu** n’exécute aucune opération.
 
@@ -34,7 +34,7 @@ Les sauvegardes restent dans **.discord-shortcuts-backups** sous les sources Ven
 
 ## Aide
 
-Assistant 0.3.0, plugin Stream Deck 0.4.0.0 et connecteur 0.3.0. L’installation des mises à jour reste manuelle.
+Assistant 0.3.1, plugin Stream Deck 0.4.0.0 et connecteur 0.3.0. L’installation des mises à jour reste manuelle.
 
 Guide : https://github.com/Sheixo/DiscordShortcuts/blob/main/docs/INSTALLATION.fr.md
 

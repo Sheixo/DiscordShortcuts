@@ -39,6 +39,7 @@ manifest.files.sort((a, b) => a.path.localeCompare(b.path));
 fs.writeFileSync(path.join(output, 'installer', 'payload-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 const result = cp.spawnSync(compiler, ['/nologo', '/target:winexe', '/platform:anycpu', '/optimize+', '/codepage:65001', '/utf8output',
     '/reference:System.Windows.Forms.dll', '/reference:System.Drawing.dll', '/reference:System.Web.Extensions.dll',
+    '/win32icon:' + path.join(root, 'installer', 'assets', 'assistant.ico'),
     '/out:' + path.join(output, 'DiscordShortcuts-Assistant.exe'), path.join(root, 'installer', 'Assistant.cs')], { encoding: 'utf8' });
 process.stdout.write(result.stdout || ''); process.stderr.write(result.stderr || '');
 if (result.error || result.status !== 0) throw result.error || new Error('Compilation Windows echouee.');

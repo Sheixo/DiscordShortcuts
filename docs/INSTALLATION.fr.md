@@ -1,8 +1,8 @@
 # Installer, mettre à jour ou désinstaller Discord Shortcuts
 
-[← Accueil](../README.md) · [Télécharger l’assistant Windows](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.3.0.zip)
+[← Accueil](../README.md) · [Télécharger l’assistant Windows](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.3.1.zip)
 
-**Trois actions, avec fermeture et relance automatiques.** L’assistant Windows 0.3.0 installe, répare ou désinstalle les deux composants : **ShortcutToggle dans Vencord** et **Discord Shortcuts dans Stream Deck**. Vencord reste nécessaire.
+**Trois actions, avec fermeture et relance automatiques.** L’assistant Windows 0.3.1 installe, répare ou désinstalle les deux composants : **ShortcutToggle dans Vencord** et **Discord Shortcuts dans Stream Deck**. Vencord reste nécessaire.
 
 ![Assistant Windows — aperçu sans opérations](assistant-windows.jpg)
 
@@ -19,8 +19,8 @@ La détection automatique vise Discord Stable dans son emplacement Windows habit
 
 ## Installer ou mettre à jour
 
-1. Télécharge [**DiscordShortcuts-Assistant-Windows-0.3.0.zip**](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.3.0.zip), puis utilise **Extraire tout**. Garde tous les fichiers ensemble.
-2. Ouvre **DiscordShortcuts-Assistant.exe**. Le titre affiche **Assistant 0.3.0** ; une fenêtre marquée **Aperçu** n’exécute aucune opération.
+1. Télécharge [**DiscordShortcuts-Assistant-Windows-0.3.1.zip**](https://github.com/Sheixo/DiscordShortcuts/releases/download/v0.4.0/DiscordShortcuts-Assistant-Windows-0.3.1.zip), puis utilise **Extraire tout**. Garde tous les fichiers ensemble.
+2. Ouvre **DiscordShortcuts-Assistant.exe**. Le titre affiche **Assistant 0.3.1** ; une fenêtre marquée **Aperçu** n’exécute aucune opération.
 3. Garde **Documents\Vencord** si c’est ton dossier de sources, ou utilise **Parcourir** pour choisir ton dossier existant. Cela conserve tes autres plugins personnalisés. Un dossier absent est créé par téléchargement des sources officielles ; un dossier existant qui ne contient pas Vencord est refusé.
 4. Clique sur **Tout installer** et laisse faire : vérification des sources, fermeture des deux applications, préparation des dépendances, compilation, application à la bonne copie Vencord, installation du plugin Stream Deck, vérification des fichiers, puis relance des applications.
 5. Attends le résultat final dans la fenêtre. Active **ShortcutToggle** dans **Discord → Paramètres → Vencord → Plugins** si nécessaire.
